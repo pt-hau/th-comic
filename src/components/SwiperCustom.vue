@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
+import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/swiper-bundle.css'
 import { ref } from 'vue'
 import type { Swiper as SwiperType } from 'swiper'
