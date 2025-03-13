@@ -1,0 +1,84 @@
+<script setup lang="ts">
+import CardRotateY from '../cards/CardRotateY.vue'
+import IconLineBg from '../icons/IconLineBg.vue';
+import IconLineBgRotateX from '../icons/IconLineBgRotateX.vue';
+import SwiperCustom from '../SwiperCustom.vue'
+
+const props = defineProps<{ data: IDataItem[] }>()
+</script>
+
+<template>
+  <div class="complete">
+    <IconLineBg />
+    <div class="content">
+      <SwiperCustom
+        :name="'Hoàn thành'"
+        :numberShow="6"
+        :data="props.data"
+        #default="{ item }"
+      >
+        <div class="complete-item">
+          <div class="item-top">
+            <CardRotateY :item="item" />
+          </div>
+          <div class="item-bottom">
+            <span>{{ item.name }}</span>
+            <span>{{ item.origin_name.join(", ") }}</span>
+          </div>
+        </div>
+      </SwiperCustom>
+    </div>
+  </div>
+  <IconLineBgRotateX />
+</template>
+
+<style scoped>
+.complete {
+  position: relative;
+  width: 100%;
+}
+
+.complete-content {
+  position: relative;
+}
+
+.complete-item {
+  position: relative;
+  width: 100%;
+}
+
+.complete-item .item-bottom {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+ 
+.complete-item .item-bottom span{
+  display: -webkit-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  margin-top: 5px;
+}
+
+.complete-item .item-bottom span:first-child {
+  font-size: 16px;
+  color: white;
+  font-weight: 400;
+  line-height: 1.3em;
+}
+
+.complete-item .item-bottom span:nth-child(2) {
+  font-size: 12px;
+  line-height: 1.3em;
+  color: rgb(199, 196, 196);
+}
+
+.complete-item .item-top {
+  aspect-ratio: 3/4;
+}
+</style>
