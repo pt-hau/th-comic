@@ -3,6 +3,7 @@ import HomeBanner from '@/components/home/HomeBanner.vue';
 import HomeComplete from '@/components/home/HomeComplete.vue';
 import HomeIsReleasing from '@/components/home/HomeIsReleasing.vue';
 import HomeNew from '@/components/home/HomeNew.vue';
+import IconLineBg from '@/components/icons/IconLineBg.vue';
 import { type } from '@/constants/defaultData';
 import { ListService } from '@/services/listService';
 import { onMounted, ref } from 'vue';
@@ -46,6 +47,7 @@ onMounted(() => {
         <div class="home-content">
           <HomeBanner :data="dataBanner"/>
           <HomeNew :data="dataNew"/>
+          <IconLineBg />
           <HomeIsReleasing :data="dataIsReleasing" />
           <HomeComplete :data="dataComplete" />
         </div>
@@ -56,6 +58,7 @@ onMounted(() => {
 <style scoped>
 .home {
   width: 100%;
+  padding-bottom: 50px;
 }
 
 .home-content {

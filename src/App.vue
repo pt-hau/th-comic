@@ -6,7 +6,7 @@ import ReadLayout from './layouts/ReadLayout.vue';
 
 const route = useRoute();
 const layout = computed(() => {
-  return route.meta.layout === 'DetailLayout' ? ReadLayout : DefaultLayout;
+  return route.meta.layout === 'ReadLayout' ? ReadLayout : DefaultLayout;
 });
 </script>
 

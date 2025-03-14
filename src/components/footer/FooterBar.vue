@@ -13,7 +13,7 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #111111c5;
+  background-color: var(--bg-banner);
 }
 
 footer span {

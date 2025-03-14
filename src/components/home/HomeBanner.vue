@@ -104,9 +104,9 @@ onBeforeUnmount(() => {
 <style scoped>
 .banner {
   position: relative;
-  padding: 50px 0;
+  padding: 100px 0 50px 0;
   width: 100%;
-  background-color: #111111c5;
+  background-color: var(--bg-banner);
 }
 
 .banner-items {
@@ -173,7 +173,6 @@ onBeforeUnmount(() => {
 }
 
 .banner-info p:nth-child(2) {
-  line-height: 1.3em;
   font-size: 30px;
   font-weight: 600;
   -webkit-line-clamp: 2;

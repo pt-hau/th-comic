@@ -1,0 +1,196 @@
+<script setup lang="ts">
+import type { IChapter } from '@/interfaces/detailInterface'
+import router from '@/router'
+
+const props = defineProps<{
+  id: string
+  slug: string
+  name: string | null | undefined
+  data: IChapter[] | null | undefined
+  isVertical: boolean
+  handleChangeVertical: (value: boolean) => void
+}>()
+</script>
+
+<template>
+  <div class="menu">
+    <div class="header-logo" @click="router.push('/')">
+      <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="70" />
+      <span>Manga</span>
+    </div>
+    <div class="line"></div>
+    <div>
+      <p class="name">{{ name }}</p>
+    </div>
+    <div class="reading-mode">
+      <span :class="`${isVertical ? 'active' : '' }`" @click="() => handleChangeVertical(true)">Hiển thị dọc</span>
+      <span :class="`${!isVertical ? 'active' : '' }`" @click="() => handleChangeVertical(false)">Hiển thị ngang</span>
+    </div>
+    <div class="chapters">
+      <p class="title">Chương: {{ id }}</p>
+      <div class="chapters-line"></div>
+      <div class="chapter-items">
+        <div v-if="data && data.length > 0">
+          <div
+            class="chapter-item"
+            v-for="(item, index) in data[0].server_data"
+            :key="index"
+            @click="() => router.push('/read/' + slug + '/chapter/' + item.chapter_name)"
+          >
+            <p>Chương {{ item?.chapter_name }}: {{ item?.filename }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="chapters-line"></div>
+  </div>
+</template>
+
+<style scoped>
+.menu {
+  width: 250px;
+  min-width: 250px;
+  height: 100vh;
+  box-sizing: border-box;
+  background-color: var(--bg-banner);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-logo {
+  display: flex;
+  gap: 5px;
+  margin-right: 20px;
+  cursor: pointer;
+  position: relative;
+}
+
+.line {
+  margin-top: 5px;
+  width: 100%;
+  height: 1px;
+  background-color: #3c8bc6;
+}
+
+.header-logo span {
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--vt-c-white);
+}
+
+.name {
+  margin-top: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--vt-c-white);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.chapters {
+  flex-grow: 1;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.title {
+  width: fit-content;
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  color: white;
+  border-radius: 8px 8px 0 0;
+  background-color: #3c8bc6;
+}
+
+.chapters-line {
+  background-color: #3c8bc6;
+  width: 100%;
+  min-height: 4px;
+}
+
+.reading-mode {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.reading-mode span {
+  font-size: 14px;
+  color: white;
+  font-weight: 500;
+  padding: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.reading-mode span.active {
+  background-color: goldenrod;
+}
+
+.reading-mode span:hover {
+  background-color: rgba(218, 165, 32, 0.425);
+}
+
+
+.chapter-items {
+  overflow-y: auto;
+  flex-grow: 1;
+  min-height: 0;
+}
+
+.chapter-item {
+  padding: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 1px;
+  background-color: #4b4a4a81;
+  color: white;
+  cursor: pointer;
+  position: relative;
+  transition: 0.3s;
+}
+
+.chapter-item p {
+  display: -webkit-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+}
+
+.chapter-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 4px;
+  background-color: #3c8bc6;
+  transform: scaleY(0);
+  transition: transform 0.3s;
+}
+
+.chapter-item:hover {
+  color: #3c8bc6;
+  background-color: #ffffff;
+}
+
+.chapter-item:hover::before {
+  transform: scaleY(1);
+}
+</style>

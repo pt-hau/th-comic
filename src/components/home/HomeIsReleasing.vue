@@ -32,7 +32,6 @@ const props = defineProps<{ data: IDataItem[] }>()
 .isReleasing {
   position: relative;
   width: 100%;
-  background-color: #111111c5;
 }
 
 .isReleasing-content {

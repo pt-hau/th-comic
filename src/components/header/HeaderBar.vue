@@ -28,14 +28,14 @@ import SearchButton from '../buttons/ButtonSearch.vue';
 
 <style scoped>
 header {
-  position: sticky;
+  position: fixed;
   line-height: 1.5;
   top: 0;
   width: 100%;
   height: 50px;
   backdrop-filter: blur(5px);
   border-bottom: 1px solid #4d4c4c;
-  background-color: #111111c5;
+  background-color: var(--bg-banner);
   z-index: 50;
 }
 

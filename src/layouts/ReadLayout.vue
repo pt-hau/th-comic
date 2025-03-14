@@ -13,17 +13,16 @@ import { provide, ref } from 'vue';
 </template>
 
 <style scoped>
-/* .layout {
+.layout {
   display: flex;
   position: relative;
   width: 100%;
   flex-direction: column;
-  min-height: 100%;
+  flex-grow: 1;
 }
 
 .layout-content {
-  margin: 0 auto;
-  width: 100%;
+  display: flex;
   flex-grow: 1;
-} */
+}
 </style>

@@ -45,9 +45,9 @@ defineProps<{
 <style scoped>
 .banner {
   width: 100%;
-  padding: 50px 0;
+  padding: 100px 0 50px 0;
   position: relative;
-  background-color: #111111c5;
+  background-color: var(--bg-banner);
 }
 
 .banner-content {
@@ -57,8 +57,8 @@ defineProps<{
 }
 
 .image {
-  min-width: 180px;
-  max-width: 180px;
+  min-width: 220px;
+  max-width: 220px;
   border-radius: 10px;
   border: 3px solid white;
   overflow: hidden;
@@ -137,7 +137,7 @@ defineProps<{
 
 .description {
   margin-top: 20px;
-  background-color: rgba(255, 255, 255, 0.151);
+  /* background-color: rgba(255, 255, 255, 0.151); */
   padding: 0.4rem;
   line-height: 1;
   font-size: 14px;

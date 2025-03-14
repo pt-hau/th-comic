@@ -79,7 +79,7 @@ onMounted(() => {
   cursor: pointer;
   position: relative;
   transition: 0.3s;
-  border-radius: 20px;
+  border-radius: 4px;
 }
 
 .some {

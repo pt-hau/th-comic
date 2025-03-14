@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import IconLineBg from '../icons/IconLineBg.vue'
 import CardRotateY from '../cards/CardRotateY.vue'
+import IconLineBg from '../icons/IconLineBg.vue';
 import SwiperCustom from '../SwiperCustom.vue'
-import IconLineBgRotateX from '../icons/IconLineBgRotateX.vue';
 
 const props = defineProps<{ data: IDataItem[] }>()
 </script>
 
 <template>
   <div class="new">
-      <IconLineBg />
     <div class="content">
       <SwiperCustom :name="'Truyện mới'" :numberShow="5" :data="props.data" #default="{ item, index }">
         <div class="new-item">
@@ -24,13 +22,13 @@ const props = defineProps<{ data: IDataItem[] }>()
       </SwiperCustom>
     </div>
   </div>
-      <IconLineBgRotateX />
 </template>
 
 <style scoped>
 .new {
   position: relative;
   width: 100%;
+  background-color: var(--bg-banner);
 }
 
 .new-content {

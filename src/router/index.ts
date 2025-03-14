@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import DetailView from '@/views/DetailView.vue'
+import ReadView from '@/views/ReadView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,12 +38,11 @@ const router = createRouter({
       path: '/detail/:id',
       name: 'detail',
       component: DetailView,
-      meta: { layout: 'ReadLayout' }
     },
     {
-      path: '/read/:id',
+      path: '/read/:slug/chapter/:id',
       name: 'read',
-      component: DetailView,
+      component: ReadView,
       meta: { layout: 'ReadLayout' }
     }
   ]

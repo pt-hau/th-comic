@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { IChapter } from '@/interfaces/detailInterface'
+import router from '@/router';
 
 defineProps<{
+  slug: string
   data: IChapter[] | null | undefined
 }>()
 
@@ -50,7 +52,7 @@ defineProps<{
       <div class="title-line"></div>
       <div v-if="data && data.length > 0">
         <div class="chapter-items">
-          <div class="chapter-item" v-for="(item, index) in data[0].server_data" :key="index">
+          <div class="chapter-item" v-for="(item, index) in data[0].server_data" :key="index"   @click="() => router.push('/read/' + slug + '/chapter/' + item.chapter_name)">
             <span>Chương {{ item?.chapter_name }}: {{ item?.filename }}</span>
           </div>
           <!-- <span ref="indicatorRef" class="indicator"></span> -->
