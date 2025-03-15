@@ -6,7 +6,7 @@ export const ListService = {
     return await AxiosInstance.get(`/danh-sach/${type}`);
   },
 
-  getCaterogies: async () => {
+  getCategories: async () => {
     return await AxiosInstance.get("/the-loai");
   },
 

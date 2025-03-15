@@ -77,6 +77,14 @@ watch([() => route.params.id, () => detailData.value], ([newId, newDetailData]) 
     }
   }
 })
+
+const handleUpdatePage = (newPage: number) => {
+  if(isTwoPage.value && newPage % 2 == 0) {
+    page.value = newPage -1;
+  } else {
+    page.value = newPage;
+  }
+}
 </script>
 
 <template>
@@ -84,7 +92,8 @@ watch([() => route.params.id, () => detailData.value], ([newId, newDetailData]) 
     <div class="read-content">
       <ReadMenu :id="id" :slug="slug" :name="detailData?.name" :data="detailData?.chapters" :isVertical="isVertical" :handleChangeVertical="handleChangeVertical"/>
       <div class="body">
-        <ReadContent :isPage="page" :isVertical="isVertical" :data="detailDataRead" :isTwoPage="isTwoPage"/>
+        <ReadContent :page="page" :isVertical="isVertical" :data="detailDataRead" :isTwoPage="isTwoPage"   :updatePage="handleUpdatePage"
+        />
         <ReadMenuBottom
           v-if="!isVertical"
           :page="page"

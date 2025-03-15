@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import DetailView from '@/views/DetailView.vue'
 import ReadView from '@/views/ReadView.vue'
+import StatusView from '@/views/StatusView.vue'
+import TypeView from '@/views/TypeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,31 +22,41 @@ const router = createRouter({
     //   component: () => import('../views/AboutView.vue')
     // },
     {
-      path: '/types',
-      name: 'types',
-      component: HomeView
-    },
-    {
-      path: '/genres',
-      name: 'genres',
-      component: HomeView
-    },
-    {
-      path: '/newest',
-      name: 'newest',
-      component: HomeView
-    },
-    {
-      path: '/detail/:id',
+      path: '/chi-tiet/:id',
       name: 'detail',
       component: DetailView,
     },
     {
-      path: '/read/:slug/chapter/:id',
+      path: '/truyen-moi',
+      name: 'truyen moi',
+      component: StatusView,
+    },
+    {
+      path: '/dang-phat-hanh',
+      name: 'dang phat hanh',
+      component: StatusView,
+    },
+    {
+      path: '/hoan-thanh',
+      name: 'hoan thanh',
+      component: StatusView,
+    },
+    {
+      path: '/the-loai/:id',
+      name: 'the loai',
+      component: TypeView,
+    },
+    {
+      path: '/doc/:slug/chuong/:id',
       name: 'read',
       component: ReadView,
       meta: { layout: 'ReadLayout' }
+    },
+    {
+      path: '/:pathMatch(.*)*', 
+      redirect: '/'
     }
+
   ]
 })
 

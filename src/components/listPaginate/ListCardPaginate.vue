@@ -1,13 +1,16 @@
 <script setup lang="ts">
-import 'swiper/swiper-bundle.css'
+import router from '@/router';
+import CardRotateY from '../cards/CardRotateY.vue'
+import SwiperCustom from '../SwiperCustom.vue'
 
-defineProps<{ item: IDataItem }>()
-
+const props = defineProps<{ data: IResponseDataStatus | null | undefined }>()
 </script>
 
 <template>
-  <div class="card-container">
-    <div class="card">
+  <div class="list">
+    <div class="cards">
+    <div v-for="(item, index) in data?.data.items" :key="index" class="card" @click="() => router.push(`/chi-tiet/${item.slug}`)">
+      <div class="card-image">
       <div class="card-face front">
         <img
           :src="`https://otruyen.cc/_next/image?url=https://img.otruyenapi.com/uploads/comics/${item.thumb_url}&w=1200&q=100`"
@@ -24,8 +27,6 @@ defineProps<{ item: IDataItem }>()
         />
         <div class="card-overlay">
           <div class="card-info">
-            <p>Chương: {{ item.chaptersLatest[0].chapter_name }}</p>
-            <p>Thể loại: {{ item.category.map((c) => c.name).join(', ') }}</p>
             <div class="card-buttons">
               <a :href="`/doc/${item.slug}/chuong/1`" class="card-button">Đọc truyện</a>
               <a :href="'/chi-tiet/' + item.slug" class="card-button">Xem thông tin</a>
@@ -34,61 +35,90 @@ defineProps<{ item: IDataItem }>()
         </div>
       </div>
     </div>
+      <div class="card-info">
+        <p><span class="name">{{ item.name }}</span></p>
+        <p><span>Chương:</span> {{ item.chaptersLatest[0].chapter_name }}</p>
+        <p><span>Thể loại:</span> {{ item?.category.map((i) => i.name).join(', ') }}</p>
+      </div>
+    </div>
+  </div>
   </div>
 </template>
 
 <style scoped>
-.card-container {
-  perspective: 1000px;
+.list {
   width: 100%;
-  height: 100%;
+  overflow: hidden;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 10px;
 }
 
 .card {
-  position: relative;
-  width: 100%;
+  aspect-ratio: 2;
+  padding: 10px;
+  box-sizing: border-box;
+  background-color: rgba(143, 143, 143, 0.174);
+  border-radius: 4px;
+  perspective: 1000px;
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.card:hover {
+  background-color: rgba(143, 143, 143, 0.326);
+}
+
+.card-image {
+  aspect-ratio: 5/6;
   height: 100%;
+  border: 4px solid white;
+  border-radius: 2px;
+  position: relative;
   transform-style: preserve-3d;
   transition: transform 0.5s;
 }
 
 .card-info {
   flex-grow: 1;
-  position: absolute;
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
   box-sizing: border-box;
   max-width: 600px;
-  padding: 10px;
   color: white;
-  top: 0px;
 }
 
 .card-info p {
   display: -webkit-box;
   display: box;
+  margin-bottom: 5px;
   -webkit-box-orient: vertical;
   box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.card-info p:first-child {
-  font-size: 14px;
-  font-weight: 600;
-  -webkit-line-clamp: 1;
-  line-clamp: 1;
-  margin-bottom: 15px;
-}
-
-.card-info p:nth-child(2) {
   font-size: 14px;
   font-weight: 400;
-  margin-bottom: 10px;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.card-info p:not(:first-child) {
+  padding-top: 10px;
+  border-top: 1px dashed rgba(37, 105, 207, 0.252);
+}
+
+.card-info .name {
+  font-size: 16px;
+}
+.card-info p span {
+  font-weight: 600;
 }
 
 .card-buttons {
@@ -96,14 +126,15 @@ defineProps<{ item: IDataItem }>()
   flex-grow: 1;
   flex-direction: column;
   justify-content: end;
+  padding: 5px;
 }
 
 .card-buttons .card-button {
   width: 100%;
   box-sizing: border-box;
   font-weight: 500;
-  font-size: 14px;
-  padding: 8px 20px;
+  font-size: 12px;
+  padding: 10px 10px;
   border-radius: 4px;
   text-align: center;
 }
@@ -146,7 +177,8 @@ defineProps<{ item: IDataItem }>()
   transform: rotateY(180deg);
 }
 
-.card-container:hover .card {
+.card:hover .card-image {
   transform: rotateY(180deg);
 }
+
 </style>

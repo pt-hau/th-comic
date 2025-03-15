@@ -33,7 +33,7 @@ defineProps<{
             </div>
           </div>
           <div class="info-col">
-            <a href="/" class="read">Đọc truyện</a>
+            <a :href="`/read/${data?.slug}/chapter/1`" class="read">Đọc truyện</a>
           </div>
           <p class="description" v-html="data?.content"></p>
         </div>

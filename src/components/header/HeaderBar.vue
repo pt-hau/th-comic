@@ -13,9 +13,10 @@ import SearchButton from '../buttons/ButtonSearch.vue';
       </div>
       <div class="header-wrapper">
         <nav class="header-nav">
-          <RouterLink to="/genres">Truyện mới</RouterLink>
-          <RouterLink to="/newest">Hoàn thành</RouterLink>
-          <RouterLink to="/types">Thể loại</RouterLink>
+          <RouterLink to="/truyen-moi">Truyện mới</RouterLink>
+          <RouterLink to="/dang-phat-hanh">Đang phát hành</RouterLink>
+          <RouterLink to="/hoan-thanh">Hoàn thành</RouterLink>
+          <a>Thể loại</a>
         </nav>
       </div>
       <div class="header-button"> 

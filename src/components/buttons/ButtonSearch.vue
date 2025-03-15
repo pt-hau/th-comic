@@ -20,6 +20,9 @@ const showSearch = inject('showSearch');
   color: var(--vt-c-white);
   transition: 0.3s;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .search-button:hover {

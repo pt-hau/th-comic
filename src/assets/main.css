@@ -89,7 +89,7 @@ a,
 
 .tooltip-text {
   visibility: hidden;
-  width: 120px;
+  width: 150px;
   background-color: black;
   color: #fff;
   text-align: center;
@@ -97,11 +97,14 @@ a,
   padding: 5px;
   position: absolute;
   z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 105%;
   opacity: 0;
   transition: opacity 0.3s;
+}
+
+.tooltip-text-center {
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .tooltip-container:hover .tooltip-text {

@@ -46,15 +46,15 @@
 .wave {
   width: 200%;
   height: 100%;
-  /* animation: wave-animation 5s linear infinite; */
+  animation: wave-animation 5s linear infinite;
 }
 
-/* @keyframes wave-animation {
+@keyframes wave-animation {
   0% {
     transform: translateX(0);
   }
   100% {
     transform: translateX(-50%);
   }
-} */
+}
 </style>

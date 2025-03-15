@@ -1,11 +1,30 @@
 <script setup lang="ts">
 import type { IChapter } from '@/interfaces/detailInterface'
-import router from '@/router';
+import router from '@/router'
+import { ref } from 'vue'
+import IconSearch from '../icons/IconSearch.vue';
 
 defineProps<{
   slug: string
   data: IChapter[] | null | undefined
 }>()
+
+const searchQuery = ref('')
+
+const handleSearch = () => {
+  const chapterContainer = document.querySelector('.chapter-items') as HTMLElement | null;
+  if (!chapterContainer) return;
+
+  const chapterItems = Array.from(chapterContainer.querySelectorAll('.chapter-item')) as HTMLElement[];
+  const targetItem = chapterItems.find(item => item.id.includes(searchQuery.value.trim()));
+
+  if (targetItem) {
+    chapterContainer.scrollTo({
+      top: targetItem.offsetTop,
+      behavior: 'smooth'
+    });
+  }
+}
 
 // const chapterRef = ref<HTMLElement | null>(null)
 // const indicatorRef = ref<HTMLSpanElement | null>(null)
@@ -50,12 +69,26 @@ defineProps<{
     <div class="chapter-content">
       <p class="title">Danh sách chương</p>
       <div class="title-line"></div>
+      <div class="search">
+        <input
+          class="search-input"
+          v-model="searchQuery"
+          @input="handleSearch"
+          placeholder="Tìm chương, ví dụ: 124"
+        />
+        <div class="search-icon"><IconSearch /></div>
+      </div>
       <div v-if="data && data.length > 0">
         <div class="chapter-items">
-          <div class="chapter-item" v-for="(item, index) in data[0].server_data" :key="index"   @click="() => router.push('/read/' + slug + '/chapter/' + item.chapter_name)">
+          <div
+            :id="item.chapter_name"
+            :class="`chapter-item ${searchQuery === item.chapter_name ? 'isSearch' : '' }`"
+            v-for="(item, index) in data[0].server_data"
+            :key="index"
+            @click="() => router.push('/read/' + slug + '/chapter/' + item.chapter_name)"
+          >
             <span>Chương {{ item?.chapter_name }}: {{ item?.filename }}</span>
           </div>
-          <!-- <span ref="indicatorRef" class="indicator"></span> -->
         </div>
       </div>
     </div>
@@ -121,13 +154,54 @@ defineProps<{
   transition: transform 0.3s;
 }
 
-.chapter-item:hover {
+.chapter-item:hover, .chapter-item.isSearch {
   color: #3c8bc6;
   background-color: #ffffff;
 }
 
-.chapter-item:hover::before {
+.chapter-item:hover::before, .chapter-item.isSearch::before {
   transform: scaleY(1);
+}
+
+.search {
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 1px;
+  background-color: #666565;
+  width: 100%;
+  transition: 0.3s;
+  position: relative;
+  padding-right: 40px;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  color: white;
+  width: 100%;
+  background-color: transparent;
+}
+
+.search-input::placeholder {
+  color: #b0b0b0;
+}
+
+.search:hover {
+  background-color: #7b7b7b;
+}
+
+.search-icon {
+  width: 40px;
+  color: white;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* .indicator {

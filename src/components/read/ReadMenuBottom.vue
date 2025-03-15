@@ -26,7 +26,7 @@ defineProps<{
           :class="`action-span tooltip-container ${!isTwoPage ? 'active' : ''}`"
           @click="() => handleChangeIsTwoPage(false)"
         >
-        <div class="tooltip-text">Hiển thị một trang</div>
+        <div class="tooltip-text tooltip-text-center">Hiển thị một trang</div>
           <span></span>
         </div>
       </div>
@@ -35,7 +35,7 @@ defineProps<{
       </div>
       <div class="page">
         <span
-          >{{ page < 10 ? '0' : '' }}{{ page }} {{ isTwoPage ? (page < 10 ? '- 0' : '- ') : null
+          >{{ page < 10 ? '0' : '' }}{{ page }} {{ isTwoPage ? (page < 9 ? '- 0' : '- ') : null
           }}{{ isTwoPage ? page + 1 : null }} {{ '/' }} {{ total && total < 10 ? '0' : ''
           }}{{ total && total }}</span
         >

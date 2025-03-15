@@ -1,37 +1,39 @@
 <script setup lang="ts">
 import type { ICategory } from '@/interfaces/detailInterface'
-import { ListService } from '@/services/listService';
-import { onMounted, ref } from 'vue';
+import router from '@/router';
+import { ListService } from '@/services/listService'
+import { onMounted, ref } from 'vue'
 
 defineProps<{
   data: ICategory[] | null | undefined
-
 }>()
 
 const categories = ref<IResponseDataCategory[] | null>(null)
 
 const fetchCategories = async () => {
-  const result = await ListService.getCaterogies()
+  const result = await ListService.getCategories()
   categories.value = result.data.data.items
 }
 
 onMounted(() => {
-  fetchCategories();
+  fetchCategories()
 })
-
 </script>
 
 <template>
   <div class="category">
-      <div class="category-content">
-        <p class="title">Thể loại</p>
-        <div class="title-line"></div>
-        <div v-if="data && data.length > 0">
-          <div class="category-items">
-            <div :class="['category-item', { some: data.some(i => i.id === item._id) }]" v-for="(item, index) in categories" :key="index">
-              <span>{{ item?.name }}</span>
-            </div>
-          </div>
+    <div class="category-content">
+      <p class="title">Thể loại</p>
+      <div class="title-line"></div>
+      <div class="category-items">
+        <div
+        @click="router.push(`/the-loai/${item.slug}`)"
+          :class="['category-item', { some: data?.some((i) => i.id === item._id) }]"
+          v-for="(item, index) in categories"
+          :key="index"
+        >
+          <span>{{ item?.name }}</span>
+        </div>
       </div>
     </div>
   </div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import DetailBanner from '@/components/detail/DetailBanner.vue'
-import DetailCategory from '@/components/detail/DetailCategory.vue'
+import DetailCategory from '@/components/DetailCategory.vue'
 import DetailChapter from '@/components/detail/DetailChapter.vue'
 import DetailOther from '@/components/detail/DetailOther.vue'
 import IconLineBg from '@/components/icons/IconLineBg.vue'
@@ -39,15 +39,15 @@ onMounted(() => {
         <DetailBanner :data="detailData" />
         <div class="body">
           <div class="content">
-          <div class="body-content">
-            <div class="left">
-              <DetailChapter :slug="id" :data="detailData?.chapters" />
-            </div>
-            <div class="right">
-              <DetailCategory :data="detailData?.category" />
+            <div class="body-content">
+              <div class="left">
+                <DetailChapter :slug="id" :data="detailData?.chapters" />
+              </div>
+              <div class="right">
+                <DetailCategory :data="detailData?.category" />
+              </div>
             </div>
           </div>
-        </div>
         </div>
         <IconLineBg />
         <DetailOther :data="dataOther" />

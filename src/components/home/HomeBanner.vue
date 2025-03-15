@@ -84,8 +84,8 @@ onBeforeUnmount(() => {
             <span v-for="(value, index) in item.category" :key="index" class="banner-category">{{ value.name }}</span>
           </div>
           <div class="banner-buttons">
-            <a href="/" class="banner-button">Đọc truyện</a>
-            <a :href="'/detail/' + item.slug" class="banner-button">Xem thông tin</a>
+            <a :href="`/doc/${item.slug}/chuong/1`" class="banner-button">Đọc truyện</a>
+            <a :href="'/chi-tiet/' + item.slug" class="banner-button">Xem thông tin</a>
           </div>
         </div>
       </div>

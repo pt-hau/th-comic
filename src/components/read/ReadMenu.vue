@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { IChapter } from '@/interfaces/detailInterface'
 import router from '@/router'
+import { ref } from 'vue';
+import IconSearch from '../icons/IconSearch.vue';
 
 const props = defineProps<{
   id: string
@@ -10,6 +12,16 @@ const props = defineProps<{
   isVertical: boolean
   handleChangeVertical: (value: boolean) => void
 }>()
+
+const searchQuery = ref('')
+
+const handleSearch = () => {
+  const chapterId = document.getElementById(searchQuery.value)
+  if(chapterId) {
+    chapterId.scrollIntoView({ behavior: 'smooth', block: 'start'})
+  }
+}
+
 </script>
 
 <template>
@@ -19,8 +31,12 @@ const props = defineProps<{
       <span>Manga</span>
     </div>
     <div class="line"></div>
-    <div>
-      <p class="name">{{ name }}</p>
+    <div class="tooltip-container name" @click="router.push(`/chi-tiet/${slug}`)">
+      <p>
+        ❮
+      </p>
+      <p> {{ name }}  {{ name }}  {{ name }}</p>
+      <div class="tooltip-text">Quay lại trang chi tiết</div>
     </div>
     <div class="reading-mode">
       <span :class="`${isVertical ? 'active' : '' }`" @click="() => handleChangeVertical(true)">Hiển thị dọc</span>
@@ -29,10 +45,15 @@ const props = defineProps<{
     <div class="chapters">
       <p class="title">Chương: {{ id }}</p>
       <div class="chapters-line"></div>
+      <div class="search">
+        <input class="search-input" v-model="searchQuery" @input="handleSearch" placeholder="Tìm chương, ví dụ: 124" />
+        <div class="search-icon"><IconSearch /> </div>
+      </div>
       <div class="chapter-items">
         <div v-if="data && data.length > 0">
           <div
-            class="chapter-item"
+            :id="item.chapter_name"
+            :class="`chapter-item ${searchQuery === item.chapter_name ? 'isSearch' : '' }`"
             v-for="(item, index) in data[0].server_data"
             :key="index"
             @click="() => router.push('/read/' + slug + '/chapter/' + item.chapter_name)"
@@ -69,8 +90,9 @@ const props = defineProps<{
 .line {
   margin-top: 5px;
   width: 100%;
-  height: 1px;
+  min-height: 1px;
   background-color: #3c8bc6;
+  margin-bottom: 10px;
 }
 
 .header-logo span {
@@ -80,7 +102,11 @@ const props = defineProps<{
 }
 
 .name {
-  margin-top: 10px;
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+}
+.name p {
   font-weight: 600;
   font-size: 16px;
   color: var(--vt-c-white);
@@ -90,6 +116,11 @@ const props = defineProps<{
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
   line-clamp: 2;
+  line-height: 1.1em;
+}
+
+.name p:nth-child(2):hover {
+  text-decoration: underline;
 }
 
 .chapters {
@@ -98,6 +129,7 @@ const props = defineProps<{
   display: flex;
   flex-direction: column;
   min-height: 0;
+  position: relative;
 }
 
 .title {
@@ -135,7 +167,7 @@ const props = defineProps<{
 }
 
 .reading-mode span.active {
-  background-color: goldenrod;
+  background-color: goldenrod !important;
 }
 
 .reading-mode span:hover {
@@ -185,12 +217,53 @@ const props = defineProps<{
   transition: transform 0.3s;
 }
 
-.chapter-item:hover {
+.chapter-item:hover, .chapter-item.isSearch {
   color: #3c8bc6;
   background-color: #ffffff;
 }
 
-.chapter-item:hover::before {
+.chapter-item:hover::before, .chapter-item.isSearch::before {
   transform: scaleY(1);
+}
+
+.search {
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 1px;
+  background-color: #666565;
+  width: 100%;
+  transition: 0.3s;
+  position: relative;
+  padding-right: 40px;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  color: white;
+  width: 100%;
+  background-color: transparent;
+}
+
+.search-input::placeholder {
+  color: #b0b0b0;
+}
+
+.search:hover {
+  background-color: #7b7b7b;
+}
+
+.search-icon {
+  width: 40px;
+  color: white;
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
