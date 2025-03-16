@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import CardRotateY from '../cards/CardRotateY.vue'
-import IconLineBg from '../icons/IconLineBg.vue';
+import IconLineBg from '../icons/IconLineBg.vue'
+import LoadingView from '../LoadingView.vue'
 import SwiperCustom from '../SwiperCustom.vue'
 
 const props = defineProps<{ data: IDataItem[] }>()
@@ -9,16 +10,29 @@ const props = defineProps<{ data: IDataItem[] }>()
 <template>
   <div class="new">
     <div class="content">
-      <SwiperCustom :name="'Truyện mới'" :numberShow="5" :data="props.data" #default="{ item, index }">
-        <div class="new-item">
-          <div class="item-right">
-            <CardRotateY :item="item"/>
+      <SwiperCustom :name="'Truyện mới'" :numberShow="5" :data="props.data">
+        <template #loading="{index}">
+          <div class="new-item">
+            <div class="item-right">
+              <LoadingView />
+            </div>
+            <div class="item-left">
+              <span>{{ index + 1 < 10 ? '0' : '' }}{{ index }}</span>
+              <span>...</span>
+            </div>
           </div>
-          <div class="item-left">
-            <span>{{ index + 1 < 10 ? '0' : '' }}{{ index + 1 }}</span>
-            <span>{{ item.name }}</span>
+        </template>
+        <template #item="{ item, index }">
+          <div class="new-item">
+            <div class="item-right">
+              <CardRotateY :item="item" />
+            </div>
+            <div class="item-left">
+              <span>{{ index + 1 < 10 ? '0' : '' }}{{ index + 1 }}</span>
+              <span>{{ item.name }}</span>
+            </div>
           </div>
-        </div>
+        </template>
       </SwiperCustom>
     </div>
   </div>
@@ -78,5 +92,7 @@ const props = defineProps<{ data: IDataItem[] }>()
   top: 0;
   right: 0;
   height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
 }
 </style>

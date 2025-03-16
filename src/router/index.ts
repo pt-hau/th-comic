@@ -2,15 +2,17 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import DetailView from '@/views/DetailView.vue'
 import ReadView from '@/views/ReadView.vue'
-import StatusView from '@/views/StatusView.vue'
-import TypeView from '@/views/TypeView.vue'
+import NewView from '@/views/NewView.vue'
+import IsEeleasingView from '@/views/IsEeleasingView.vue'
+import CompleteView from '@/views/CompleteView.vue'
+import CategoryView from '@/views/CategoryView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'trang-chu',
       component: HomeView
     },
     // {
@@ -23,32 +25,32 @@ const router = createRouter({
     // },
     {
       path: '/chi-tiet/:id',
-      name: 'detail',
+      name: 'chi-tiet',
       component: DetailView,
     },
     {
       path: '/truyen-moi',
-      name: 'truyen moi',
-      component: StatusView,
+      name: 'truyen-moi',
+      component: NewView,
     },
     {
       path: '/dang-phat-hanh',
-      name: 'dang phat hanh',
-      component: StatusView,
+      name: 'dang-phat-hanh',
+      component: IsEeleasingView,
     },
     {
       path: '/hoan-thanh',
-      name: 'hoan thanh',
-      component: StatusView,
+      name: 'hoan-thanh',
+      component: CompleteView,
     },
     {
       path: '/the-loai/:id',
-      name: 'the loai',
-      component: TypeView,
+      name: 'the-loai/:id',
+      component: CategoryView,
     },
     {
       path: '/doc/:slug/chuong/:id',
-      name: 'read',
+      name: 'doc',
       component: ReadView,
       meta: { layout: 'ReadLayout' }
     },

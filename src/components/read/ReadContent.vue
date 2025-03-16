@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { IResponseDataRead } from '@/interfaces/readInterface'
-import { nextTick, onMounted, watch } from 'vue';
+import { nextTick, onMounted, watch, ref } from 'vue'
+import LoadingView from '@/components/LoadingView.vue'
+import { useRoute } from 'vue-router';
 
 const props = defineProps<{
   isVertical: boolean
@@ -10,82 +12,130 @@ const props = defineProps<{
   updatePage: (value: number) => void
 }>()
 
-const handleScroll = (e: Event) => {
-  // if (!props.isVertical) return;
-  if(!props.isTwoPage) return;
+const route = useRoute()
 
-  const readContent = e.target as HTMLElement;
-  const imagges = readContent.querySelectorAll<HTMLImageElement>('box-image img');
+const loadingStatus = ref<{ [key: number]: boolean }>({})
+
+const handleImageLoad = (index: number) => {
+  loadingStatus.value[index] = true
+}
+
+const handleScroll = (e: Event) => {
+  if (!props.isTwoPage) return
+
+  const readContent = e.target as HTMLElement
+  const images = readContent.querySelectorAll<HTMLImageElement>('box-image img')
 
   let closestImageIndex = 0
   let closestDistance = Infinity
 
-  imagges.forEach((img, index) => {
-    const rect = img.getBoundingClientRect();
-    const distance = Math.abs(rect.top);
+  images.forEach((img, index) => {
+    const rect = img.getBoundingClientRect()
+    const distance = Math.abs(rect.top)
 
-    if(distance < closestDistance) {
-      closestDistance = distance;
-      closestImageIndex = index;
+    if (distance < closestDistance) {
+      closestDistance = distance
+      closestImageIndex = index
     }
-  });
+  })
 
   props.updatePage(closestImageIndex + 1)
-};
+}
 
 const scrollToCurrentPage = () => {
   if (props.isVertical && props.page) {
     nextTick(() => {
-      const targetElement = document.getElementById(`image-${props.page}`);
-      
+      const targetElement = document.getElementById(`image-${props.page}`)
+
       if (targetElement) {
-        const img = targetElement.querySelector('img');
-        
+        const img = targetElement.querySelector('img')
+
         if (img && img.complete) {
-          targetElement.scrollIntoView({ behavior: 'auto', block: 'start' });
+          targetElement.scrollIntoView({ behavior: 'auto', block: 'start' })
         } else {
-          setTimeout(scrollToCurrentPage, 100);
+          setTimeout(scrollToCurrentPage, 100)
         }
       }
-    });
+    })
   }
-};
+}
 
+onMounted(scrollToCurrentPage)
 
-onMounted(scrollToCurrentPage);
-
-watch(() => props.isVertical, (newVal) => {
-  if (newVal) {
-    scrollToCurrentPage();
+watch(
+  () => props.isVertical,
+  (newVal) => {
+    if (newVal) {
+      scrollToCurrentPage()
+    }
   }
-});
+)
 
+watch(
+  () => route.params.id,
+  () => {
+    scrollToCurrentPage
+  }
+)
 </script>
 
 <template>
   <div class="Read">
     <div v-if="isVertical" class="read-content vertical" @scroll="handleScroll">
-      <div v-for="(item, index) in data?.data.item.chapter_image" :key="index" class="box-image" :id="`image-${index+1}`" >
+      <div
+        v-for="(item, index) in data?.data.item.chapter_image"
+        :key="index"
+        class="box-image"
+        :id="`image-${index + 1}`"
+      >
+        <LoadingView v-if="!loadingStatus[index]" />
         <img
+          v-show="loadingStatus[index]"
           :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${item.image_file}`"
-          slt="image"
+          alt="image"
+          @load="handleImageLoad(index)"
         />
       </div>
     </div>
+
     <div v-else class="read-content horizontal">
-      <div class="box-image">
-        <img
-          :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${
-            data?.data.item.chapter_image.find((item) => item.image_page === props.page)?.image_file
-          }`"
-          slt="image"
-        />
-        <img v-if="props.isTwoPage"
-          :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${
-            data?.data.item.chapter_image.find((item) => item.image_page === props.page + 1)?.image_file
-          }`"
-          slt="image"
-        />
+      <div :class="`box-image ${props.isTwoPage ? 'two-page' : ''}`">
+        <template v-if="props.isTwoPage">
+          <LoadingView v-if="!loadingStatus[props.page]" />
+          <img
+            v-show="loadingStatus[props.page]"
+            :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${
+              data?.data.item.chapter_image.find((item) => item.image_page === props.page)
+                ?.image_file
+            }`"
+            alt="image"
+            @load="handleImageLoad(props.page)"
+          />
+
+          <LoadingView v-if="!loadingStatus[props.page + 1]" />
+          <img
+            v-show="loadingStatus[props.page + 1]"
+            :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${
+              data?.data.item.chapter_image.find((item) => item.image_page === props.page + 1)
+                ?.image_file
+            }`"
+            alt="image"
+            @load="handleImageLoad(props.page + 1)"
+          />
+        </template>
+
+        <template v-else>
+          <LoadingView v-if="!loadingStatus[props.page]" />
+          <img
+            v-show="loadingStatus[props.page]"
+            :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${
+              data?.data.item.chapter_image.find((item) => item.image_page === props.page)
+                ?.image_file
+            }`"
+            alt="image"
+            @load="handleImageLoad(props.page)"
+          />
+        </template>
       </div>
     </div>
   </div>
@@ -111,7 +161,6 @@ watch(() => props.isVertical, (newVal) => {
   overflow-x: auto;
   overflow-x: hidden;
   height: 100vh;
-
 }
 
 .read-content.vertical .box-image {
@@ -143,8 +192,11 @@ watch(() => props.isVertical, (newVal) => {
 
 .read-content.horizontal img {
   height: 100%;
-  max-width: 50%;
   width: auto;
   object-fit: contain;
+}
+
+.read-content.horizontal .two-page img {
+  max-width: 40%;
 }
 </style>

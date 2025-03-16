@@ -1,18 +1,26 @@
 <script setup lang="ts">
 import 'swiper/swiper-bundle.css'
+import { ref } from 'vue'
+import LoadingView from '../LoadingView.vue'
 
 defineProps<{ item: IDataItem }>()
-
+const load = ref(false)
+const onImageLoad = () => {
+  load.value = true
+}
 </script>
 
 <template>
   <div class="card-container">
     <div class="card">
       <div class="card-face front">
+        <LoadingView v-if="!load" />
         <img
+          v-show="load"
           :src="`https://otruyen.cc/_next/image?url=https://img.otruyenapi.com/uploads/comics/${item.thumb_url}&w=1200&q=100`"
           alt="image"
           class="img-card"
+          @load="onImageLoad"
         />
       </div>
 
@@ -24,8 +32,11 @@ defineProps<{ item: IDataItem }>()
         />
         <div class="card-overlay">
           <div class="card-info">
-            <p>Chương: {{ item.chaptersLatest[0].chapter_name }}</p>
-            <p>Thể loại: {{ item.category.map((c) => c.name).join(', ') }}</p>
+            <p>
+              <span>Chương:</span>
+              {{ item.chaptersLatest ? item.chaptersLatest[0].chapter_name : 'Đang cập nhật' }}
+            </p>
+            <p><span>Thể loại:</span> {{ item.category.map((c) => c.name).join(', ') }}</p>
             <div class="card-buttons">
               <a :href="`/doc/${item.slug}/chuong/1`" class="card-button">Đọc truyện</a>
               <a :href="'/chi-tiet/' + item.slug" class="card-button">Xem thông tin</a>
@@ -77,7 +88,6 @@ defineProps<{ item: IDataItem }>()
 
 .card-info p:first-child {
   font-size: 14px;
-  font-weight: 600;
   -webkit-line-clamp: 1;
   line-clamp: 1;
   margin-bottom: 15px;
@@ -85,10 +95,13 @@ defineProps<{ item: IDataItem }>()
 
 .card-info p:nth-child(2) {
   font-size: 14px;
-  font-weight: 400;
   margin-bottom: 10px;
   -webkit-line-clamp: 3;
   line-clamp: 3;
+}
+
+.card-info p span {
+  font-weight: 600;
 }
 
 .card-buttons {

@@ -56,7 +56,7 @@ const handleSearch = () => {
             :class="`chapter-item ${searchQuery === item.chapter_name ? 'isSearch' : '' }`"
             v-for="(item, index) in data[0].server_data"
             :key="index"
-            @click="() => router.push('/read/' + slug + '/chapter/' + item.chapter_name)"
+            @click="() => router.push('/doc/' + slug + '/chuong/' + item.chapter_name)"
           >
             <p>Chương {{ item?.chapter_name }}: {{ item?.filename }}</p>
           </div>

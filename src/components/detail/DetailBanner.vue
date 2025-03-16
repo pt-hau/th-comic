@@ -1,9 +1,17 @@
 <script setup lang="ts">
 import type { IItem } from '@/interfaces/detailInterface'
+import { ref } from 'vue'
+import LoadingView from '../LoadingView.vue'
 
 defineProps<{
   data: IItem | null
 }>()
+
+const loadImage = ref(false)
+
+const handleLoadImage = () => {
+  loadImage.value = true
+}
 </script>
 
 <template>
@@ -11,10 +19,13 @@ defineProps<{
     <div class="content">
       <div class="banner-content">
         <div class="image">
+          <LoadingView class="img-card" v-if="!loadImage" />
           <img
+            v-show="loadImage"
             :src="`https://otruyen.cc/_next/image?url=https://img.otruyenapi.com/uploads/comics/${data?.thumb_url}&w=1200&q=100`"
             alt="image"
             class="img-card"
+            @load="handleLoadImage"
           />
         </div>
         <div class="info">
@@ -33,7 +44,7 @@ defineProps<{
             </div>
           </div>
           <div class="info-col">
-            <a :href="`/read/${data?.slug}/chapter/1`" class="read">Đọc truyện</a>
+            <a :href="`/doc/${data?.slug}/chuong/1`" class="read">Đọc truyện</a>
           </div>
           <p class="description" v-html="data?.content"></p>
         </div>
@@ -62,17 +73,11 @@ defineProps<{
   border-radius: 10px;
   border: 3px solid white;
   overflow: hidden;
-  /* perspective: 1000px; */
 }
 
-/* .image img {
-  border: 3px solid white;
-  overflow: hidden;
-  transform-style: preserve-3d;
-  animation: rotate360 5s linear infinite;
-  transition: transform 0.6s ease;
-  border-radius: 10px;
-} */
+.image .img-card {
+  aspect-ratio: 3/4;
+}
 
 /* .image img:hover {
   animation: none;

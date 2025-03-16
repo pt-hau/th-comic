@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CardRotateY from '../cards/CardRotateY.vue'
+import LoadingView from '../LoadingView.vue';
 import SwiperCustom from '../SwiperCustom.vue'
 
 const props = defineProps<{ data: IDataItem[] }>()
@@ -12,9 +13,18 @@ const props = defineProps<{ data: IDataItem[] }>()
         :name="'Hoàn thành'"
         :numberShow="6"
         :data="props.data"
-        #default="{ item }"
       >
+      <template #loading>
         <div class="complete-item">
+          <div class="item-top">
+            <LoadingView />
+          </div>
+          <div class="loading-bottom">
+          </div>
+        </div>
+        </template>
+        <template #item="{ item }">
+          <div class="complete-item">
           <div class="item-top">
             <CardRotateY :item="item" />
           </div>
@@ -23,6 +33,7 @@ const props = defineProps<{ data: IDataItem[] }>()
             <span>{{ item.origin_name.join(", ") }}</span>
           </div>
         </div>
+        </template>
       </SwiperCustom>
     </div>
   </div>
@@ -76,5 +87,11 @@ const props = defineProps<{ data: IDataItem[] }>()
 
 .complete-item .item-top {
   aspect-ratio: 3/4;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.loading-bottom {
+  height: 60px;
 }
 </style>

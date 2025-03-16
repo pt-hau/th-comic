@@ -25,43 +25,6 @@ const handleSearch = () => {
     });
   }
 }
-
-// const chapterRef = ref<HTMLElement | null>(null)
-// const indicatorRef = ref<HTMLSpanElement | null>(null)
-
-// onMounted(() => {
-//   const chapter = chapterRef.value
-//   const indicator = indicatorRef.value
-//   if (!chapter || !indicator) return
-
-//   const links = chapter.querySelectorAll<HTMLDivElement>('.chapter-item')
-//   if (!links.length) return
-
-//   const handleMouseEnter = (event: MouseEvent) => {
-//     const link = event.currentTarget as HTMLDivElement
-//     const { top } = link.getBoundingClientRect()
-//     const chapterTop = chapter.getBoundingClientRect().top
-//     const linkHeight = link.scrollHeight
-
-//     const scrollOffset = chapter.scrollTop
-
-//     indicator.style.height = `${linkHeight}px`
-//     indicator.style.top = `${top - chapterTop + scrollOffset}px`
-//     indicator.style.opacity = '1'
-//   }
-
-//   const handleMouseLeave = () => {
-//     indicator.style.opacity = '0'
-//   }
-
-//   links.forEach((link) => link.addEventListener('mouseenter', handleMouseEnter))
-//   chapter.addEventListener('mouseleave', handleMouseLeave)
-
-//   return () => {
-//     links.forEach((link) => link.removeEventListener('mouseenter', handleMouseEnter))
-//     chapter.removeEventListener('mouseleave', handleMouseLeave)
-//   }
-// })
 </script>
 
 <template>
@@ -85,9 +48,20 @@ const handleSearch = () => {
             :class="`chapter-item ${searchQuery === item.chapter_name ? 'isSearch' : '' }`"
             v-for="(item, index) in data[0].server_data"
             :key="index"
-            @click="() => router.push('/read/' + slug + '/chapter/' + item.chapter_name)"
+            @click="() => router.push('/doc/' + slug + '/chuong/' + item.chapter_name)"
           >
             <span>Chương {{ item?.chapter_name }}: {{ item?.filename }}</span>
+          </div>
+        </div>
+      </div>
+      <div v-else>
+        <div class="chapter-items">
+          <div
+            :id="index.toString"
+            :class="`chapter-item`"
+            v-for="index in 20"
+            :key="index"
+          >
           </div>
         </div>
       </div>
@@ -138,6 +112,7 @@ const handleSearch = () => {
   color: white;
   cursor: pointer;
   position: relative;
+  min-height: 25px;
   transition: 0.3s;
 }
 

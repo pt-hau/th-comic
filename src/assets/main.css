@@ -67,6 +67,7 @@ a,
   z-index: 1;
   cursor: pointer;
   transition: 0.3s;
+  color: #111;
 }
 
 .swiper-button:hover {

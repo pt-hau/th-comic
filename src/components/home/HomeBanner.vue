@@ -1,11 +1,21 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import LoadingView from '../LoadingView.vue'
 
 const props = defineProps<{
-  data: IDataItem[];
-}>();
+  data: IDataItem[]
+}>()
 const itemIndex = ref(0)
 const autoSlideInterval = ref<number | null>(null)
+const loadedImages = ref<boolean[]>([])
+
+const onImageLoad = (index: number) => {
+  loadedImages.value[index] = true
+}
+
+watch(() => props.data, (newData) => {
+  loadedImages.value = new Array(newData.length).fill(false);
+}, { immediate: true })
 
 const nextSlide = () => {
   itemIndex.value = (itemIndex.value + 1) % props.data.length
@@ -19,14 +29,14 @@ const prevSlide = () => {
 
 const startAutoSlide = () => {
   autoSlideInterval.value = window.setInterval(() => {
-    nextSlide();
-  }, 4000);
+    nextSlide()
+  }, 4000)
 }
 
 const stopAutoSlide = () => {
-  if(autoSlideInterval.value != null) {
-    clearInterval(autoSlideInterval.value);
-    autoSlideInterval.value = null;
+  if (autoSlideInterval.value != null) {
+    clearInterval(autoSlideInterval.value)
+    autoSlideInterval.value = null
   }
 }
 
@@ -42,66 +52,87 @@ onMounted(() => {
 onBeforeUnmount(() => {
   stopAutoSlide()
 })
-
 </script>
 
 <template>
   <div class="banner">
     <div class="content">
       <div class="banner-items">
-      <div
-        v-for="(item, index) in props.data"
-        :key="index"
-        :class="['banner-item', { active: index === itemIndex }]"
-      >
-        <img
-          :src="`https://otruyen.cc/_next/image?url=https://img.otruyenapi.com/uploads/comics/${item.thumb_url}&w=1200&q=100`"
-          alt="image"
-          class="banner-image-bg"
-        />
-        <div class="overlay">
-          <div
-            v-if="index === itemIndex"
-            class="banner-poster"
-            :class="{ animate: index === itemIndex }"
-          >
-            <div class="banner-poster-shadow"></div>
-            <div class="banner-poster-content">
-              <img
-                :src="`https://otruyen.cc/_next/image?url=https://img.otruyenapi.com/uploads/comics/${item.thumb_url}&w=1200&q=100`"
-                alt="image"
-              />
+        <div class="load" v-if="data.length == 0">
+          <LoadingView />
+        </div>
+        <div
+          v-else
+          v-for="(item, index) in props.data"
+          :key="index"
+          :class="['banner-item', { active: index === itemIndex }]"
+        >
+          <img
+            :src="`https://otruyen.cc/_next/image?url=https://img.otruyenapi.com/uploads/comics/${item.thumb_url}&w=1200&q=100`"
+            alt="image"
+            class="banner-image-bg"
+          />
+          <div class="overlay">
+            <div
+              v-if="index === itemIndex"
+              class="banner-poster"
+              :class="{ animate: index === itemIndex }"
+            >
+              <div class="banner-poster-shadow"></div>
+              <div class="banner-poster-content">
+                <div v-if="!loadedImages[index]" class="loading image"><LoadingView /></div>
+                <img
+                  v-show="loadedImages[index]"
+                  :src="`https://otruyen.cc/_next/image?url=https://img.otruyenapi.com/uploads/comics/${item.thumb_url}&w=1200&q=100`"
+                  alt="image"
+                  @load="onImageLoad(index)"
+                  class="image"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="banner-info">
+            <p>
+              Chương:
+              {{ item.chaptersLatest ? item.chaptersLatest[0].chapter_name : 'Đang cập nhật' }}
+            </p>
+            <p>{{ item.name }}</p>
+            <p>
+              {{ item.origin_name.join(', ') }}
+            </p>
+            <div class="banner-categories">
+              <span v-for="(value, index) in item.category" :key="index" class="banner-category">{{
+                value.name
+              }}</span>
+            </div>
+            <div class="banner-buttons">
+              <a :href="`/doc/${item.slug}/chuong/1`" class="banner-button">Đọc truyện</a>
+              <a :href="'/chi-tiet/' + item.slug" class="banner-button">Xem thông tin</a>
             </div>
           </div>
         </div>
-        <div class="banner-info">
-          <p>Chương: {{ item.chaptersLatest[0].chapter_name }}</p>
-          <p>{{ item.name }}</p>
-          <p>
-            {{ item.origin_name.join(", ") }}
-          </p>
-          <div class="banner-categories">
-            <span v-for="(value, index) in item.category" :key="index" class="banner-category">{{ value.name }}</span>
-          </div>
-          <div class="banner-buttons">
-            <a :href="`/doc/${item.slug}/chuong/1`" class="banner-button">Đọc truyện</a>
-            <a :href="'/chi-tiet/' + item.slug" class="banner-button">Xem thông tin</a>
-          </div>
-        </div>
-      </div>
-      <div class="swiper-buttons">
+        <div class="swiper-buttons">
           <div class="swiper-button" @click="prevSlide">❮</div>
           <div class="swiper-button" @click="nextSlide">❯</div>
         </div>
-    </div>
-    <div class="banner-description">
-      <span>"Website cung cấp truyện tranh miễn phí nhanh chất lượng cao. Nguồn truyện tranh chất lượng cao cập nhật nhanh nhất. API truyện tranh, Data truyện tranh miễn phí"</span>
-    </div>
+      </div>
+      <div class="banner-description">
+        <span
+          >"Website cung cấp truyện tranh miễn phí nhanh chất lượng cao. Nguồn truyện tranh chất
+          lượng cao cập nhật nhanh nhất. API truyện tranh, Data truyện tranh miễn phí"</span
+        >
+      </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+.load {
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
 .banner {
   position: relative;
   padding: 100px 0 50px 0;
@@ -263,7 +294,7 @@ onBeforeUnmount(() => {
   box-shadow: 0 30px 30px rgba(0, 0, 0, 0.2);
 }
 
-.banner-poster-content img {
+.banner-poster-content .image {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -281,7 +312,7 @@ onBeforeUnmount(() => {
   margin-top: 20px;
 }
 
-.banner-description span{
+.banner-description span {
   color: #fff;
 }
 

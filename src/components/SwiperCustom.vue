@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue'
 import 'swiper/swiper-bundle.css'
 import { ref } from 'vue'
 import type { Swiper as SwiperType } from 'swiper'
+import LoadingView from './LoadingView.vue';
 
 const props = defineProps<{ name: string, numberShow: number; data: IDataItem[] }>()
 
@@ -31,14 +32,27 @@ const slidePrev = () => swiperRef.value?.slidePrev()
       @swiper="onSwiper"
       class="swiper-swiper"
     >
-      <swiper-slide v-for="(item,index) in props.data" :key="index">
-        <slot :item="item" :index="index" />
-      </swiper-slide>
+    <template v-if="!props.data.length">
+        <swiper-slide v-for="index in 6" :key="'loading-' + index">
+          <slot name="loading" :index="index"/>
+        </swiper-slide>
+      </template>
+
+      <!-- Nếu data có dữ liệu thì hiển thị nội dung bình thường -->
+      <template v-else>
+        <swiper-slide v-for="(item,index) in props.data" :key="index">
+          <slot name="item" :item="item" :index="index" />
+        </swiper-slide>
+      </template>
     </swiper>
   </div>
 </template>
 
 <style scoped>
+.load {
+  width: 100%;
+  aspect-ratio: 1;
+}
 .swiper-content {
   position: relative;
 }

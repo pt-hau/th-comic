@@ -2,58 +2,81 @@
 import DetailCategory from '@/components/DetailCategory.vue'
 import ListCardPaginate from '@/components/listPaginate/ListCardPaginate.vue'
 import ListPaginate from '@/components/listPaginate/ListPaginate.vue'
-import { type } from '@/constants/defaultData'
+import type { ICategory } from '@/interfaces/detailInterface'
 import { ListService } from '@/services/listService'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 
-const dataStatus = ref<IResponseDataStatus>()
+const props = defineProps<{
+  name: string
+  route: string
+}>()
+const data = ref<IResponseDataStatus>()
 const currentPage = ref(1);
-
 function handlePageChange(page: number) {
   currentPage.value = page;
 }
 
-const fetchDataStatus = async () => {
-  const result = await ListService.getType(type.truyenMoi.id)
-  if (result) dataStatus.value = result.data
+const fetchData = async () => {
+  const result = await ListService.getCategoryPage(props.route , currentPage.value)
+  if (result) data.value = result.data
+}
+
+const handleScroll = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
 }
 
 onMounted(() => {
-  fetchDataStatus()
+  fetchData()
+})
+
+watch(() => props.route, () => {
+  currentPage.value = 1
+  handleScroll()
+  fetchData()
+})
+
+watch(() => currentPage.value, () => {
+  fetchData()
+  handleScroll()
 })
 </script>
 
 <template>
-  <main>
     <div class="status">
       <div class="status-content">
         <div class="body">
           <div class="content">
             <div class="body-content">
               <div class="left">
-                <p class="title">Sắp ra mắt</p>
-                <ListCardPaginate :data="dataStatus" />
+                <p class="title">{{ props.name }} ❯ {{ data?.data.seoOnPage.titleHead }}</p>
+                <ListCardPaginate :data="data" />
                 <ListPaginate
-                  :totalPages="dataStatus?.data.params.pagination.pageRanges"
+                  :totalPages="data?.data.params.pagination.pageRanges"
                   :currentPage="currentPage"
                   :onPageChange="handlePageChange"
                 />
               </div>
               <div class="right">
-                <DetailCategory :data="null" />
+                <DetailCategory :data="[{
+                  id: data?.data.type_list,
+                  slug: data?.data.type_list,
+                  name: data?.data.type_list
+                }] as ICategory[]" />
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </main>
 </template>
 
 <style scoped>
 .status {
   width: 100%;
-  padding: 50px 0;
+  padding: 80px 0;
 }
 
 .status-content {

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CardRotateY from '../cards/CardRotateY.vue'
+import LoadingView from '../LoadingView.vue';
 
 const props = defineProps<{ data: IDataItem[] }>()
 </script>
@@ -8,14 +9,23 @@ const props = defineProps<{ data: IDataItem[] }>()
   <div class="other">
     <div class="content">
       <div class="title"><p>Có thể bạn sẽ thích</p></div>
-      <div class="other-items">
-      <div v-for="(item,index) in props.data" :key="index" class="other-item">
+      <div class="other-items" v-if="props.data.length > 0">
+        <div v-for="(item, index) in props.data" :key="index" class="other-item">
           <div class="item-top">
             <CardRotateY :item="item" />
           </div>
           <div class="item-bottom">
             <span>{{ item.name }}</span>
-            <span>{{ item.origin_name.join(", ") }}</span>
+            <span>{{ item.origin_name.join(', ') }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="other-items" v-else>
+        <div v-for="item, index in 20" :key="index" class="other-item">
+          <div class="item-top">
+            <LoadingView  class="load"/>
+          </div>
+          <div class="item-bottom">
           </div>
         </div>
       </div>
@@ -24,6 +34,10 @@ const props = defineProps<{ data: IDataItem[] }>()
 </template>
 
 <style scoped>
+.load {
+  border-radius: 10px;
+  overflow: hidden;
+}
 .other {
   position: relative;
   width: 100%;
@@ -58,9 +72,10 @@ const props = defineProps<{ data: IDataItem[] }>()
   display: flex;
   flex-direction: column;
   width: 100%;
+  min-height: 60px;
 }
- 
-.other-item .item-bottom span{
+
+.other-item .item-bottom span {
   display: -webkit-box;
   display: box;
   -webkit-box-orient: vertical;

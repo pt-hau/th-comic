@@ -25,14 +25,23 @@ onMounted(() => {
     <div class="category-content">
       <p class="title">Thể loại</p>
       <div class="title-line"></div>
-      <div class="category-items">
+      <div class="category-items" v-if="categories && categories?.length > 0">
         <div
         @click="router.push(`/the-loai/${item.slug}`)"
-          :class="['category-item', { some: data?.some((i) => i.id === item._id) }]"
+          :class="['category-item', { some: data?.some((i) => i.slug === item.slug) }]"
           v-for="(item, index) in categories"
           :key="index"
         >
           <span>{{ item?.name }}</span>
+        </div>
+      </div>
+      <div class="category-items" v-else>
+        <div
+          class="category-item"
+          v-for="item, index in 20"
+          :key="index"
+        >
+          <span></span>
         </div>
       </div>
     </div>
@@ -74,6 +83,7 @@ onMounted(() => {
 }
 
 .category-item {
+  box-sizing: border-box;
   padding: 5px 10px;
   margin-bottom: 1px;
   background-color: #4b4a4a81;
@@ -82,6 +92,8 @@ onMounted(() => {
   position: relative;
   transition: 0.3s;
   border-radius: 4px;
+  min-width: 50px;
+  min-height: 34px;
 }
 
 .some {

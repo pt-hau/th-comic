@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LoadingView from '@/components/LoadingView.vue'
 import ReadContent from '@/components/read/ReadContent.vue'
 import ReadMenu from '@/components/read/ReadMenu.vue'
 import ReadMenuBottom from '@/components/read/ReadMenuBottom.vue'
@@ -17,6 +18,11 @@ const total = ref<number | null | undefined>(null)
 const isVertical = ref(false)
 const page = ref(1)
 const isTwoPage = ref(false)
+const isLoad = ref(false)
+
+const handleLoad = () => {
+  isLoad.value = true
+}
 
 
 const fetchDetail = async () => {
@@ -24,6 +30,7 @@ const fetchDetail = async () => {
   if (result) {
     detailData.value = result.data.data.item
   }
+  handleLoad()
 }
 
 const fetchDataRead = async (url: string) => {
@@ -89,6 +96,9 @@ const handleUpdatePage = (newPage: number) => {
 
 <template>
   <main class="read">
+    <div class="load" v-if="!isLoad">
+        <LoadingView />
+      </div>
     <div class="read-content">
       <ReadMenu :id="id" :slug="slug" :name="detailData?.name" :data="detailData?.chapters" :isVertical="isVertical" :handleChangeVertical="handleChangeVertical"/>
       <div class="body">
@@ -113,6 +123,14 @@ const handleUpdatePage = (newPage: number) => {
 <style scoped>
 .read {
   flex-grow: 1;
+  position: relative;
+}
+
+.load {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 2;
 }
 
 .read-content {

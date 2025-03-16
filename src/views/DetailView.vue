@@ -10,11 +10,17 @@ import { DetailServices } from '@/services/detailServices'
 import { ListService } from '@/services/listService'
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import LoadingView from '@/components/LoadingView.vue'
 
 const detailData = ref<IItem | null>(null)
 const route = useRoute()
 const id = route.params.id as string
 const dataOther = ref([])
+const isLoad = ref(false)
+
+const handleLoad = () => {
+  isLoad.value = true
+}
 
 const fetchOther = async () => {
   const result = await ListService.getType(type.truyenMoi.id)
@@ -24,6 +30,7 @@ const fetchOther = async () => {
 const fetchDetail = async () => {
   const result = await DetailServices.getDetail(id)
   if (result) detailData.value = result.data.data.item
+  handleLoad()
 }
 
 onMounted(() => {
@@ -35,6 +42,9 @@ onMounted(() => {
 <template>
   <main>
     <div class="detail">
+      <div class="load" v-if="!isLoad">
+        <LoadingView />
+      </div>
       <div class="detail-content">
         <DetailBanner :data="detailData" />
         <div class="body">
@@ -59,7 +69,17 @@ onMounted(() => {
 <style scoped>
 .detail {
   width: 100%;
+  height: 100%;
   padding-bottom: 50px;
+  position: relative;
+}
+
+.load {
+  width: 100vw;
+  height: 100vh;
+  padding-top: 50px;
+  position: fixed;
+  z-index: 2;
 }
 
 .detail-content {

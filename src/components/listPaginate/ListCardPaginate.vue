@@ -1,21 +1,51 @@
 <script setup lang="ts">
 import router from '@/router';
-import CardRotateY from '../cards/CardRotateY.vue'
-import SwiperCustom from '../SwiperCustom.vue'
+import LoadingView from '../LoadingView.vue';
+import { onMounted, ref, watch } from 'vue';
 
 const props = defineProps<{ data: IResponseDataStatus | null | undefined }>()
+
+const loadedImages = ref<boolean[]>([])
+
+onMounted(() => {
+  if (props.data?.data.items) {
+    loadedImages.value = props.data.data.items.map(() => false)
+  }
+})
+
+const onImageLoad = (index: number) => {
+  loadedImages.value[index] = true
+}
+
+watch(() => props.data?.data.items, (newItems) => {
+  if (newItems) {
+    loadedImages.value = newItems.map(() => false)
+  }
+})
 </script>
 
 <template>
   <div class="list">
-    <div class="cards">
+    <div class="cards" v-if="data == null">
+    <div v-for="index in 24" :key="index" class="card">
+      <div class="card-image">
+      <div class="card-face front">
+        <LoadingView class="image-card" />
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="cards" v-else >
     <div v-for="(item, index) in data?.data.items" :key="index" class="card" @click="() => router.push(`/chi-tiet/${item.slug}`)">
       <div class="card-image">
       <div class="card-face front">
+        <div v-if="!loadedImages[index]"><LoadingView /> </div>
         <img
+        v-show="loadedImages[index]"
           :src="`https://otruyen.cc/_next/image?url=https://img.otruyenapi.com/uploads/comics/${item.thumb_url}&w=1200&q=100`"
           alt="image"
           class="img-card"
+          @load="onImageLoad(index)"
         />
       </div>
 
@@ -37,7 +67,9 @@ const props = defineProps<{ data: IResponseDataStatus | null | undefined }>()
     </div>
       <div class="card-info">
         <p><span class="name">{{ item.name }}</span></p>
-        <p><span>Chương:</span> {{ item.chaptersLatest[0].chapter_name }}</p>
+        <div class="line"></div>
+        <p><span>Chương:</span> {{ item.chaptersLatest ? item.chaptersLatest[0].chapter_name : 'Đang cập nhật' }}</p>
+        <div class="line"></div>
         <p><span>Thể loại:</span> {{ item?.category.map((i) => i.name).join(', ') }}</p>
       </div>
     </div>
@@ -53,7 +85,7 @@ const props = defineProps<{ data: IResponseDataStatus | null | undefined }>()
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 10px;
 }
 
@@ -98,7 +130,6 @@ const props = defineProps<{ data: IResponseDataStatus | null | undefined }>()
 .card-info p {
   display: -webkit-box;
   display: box;
-  margin-bottom: 5px;
   -webkit-box-orient: vertical;
   box-orient: vertical;
   overflow: hidden;
@@ -109,8 +140,8 @@ const props = defineProps<{ data: IResponseDataStatus | null | undefined }>()
   line-clamp: 2;
 }
 
-.card-info p:not(:first-child) {
-  padding-top: 10px;
+.card-info .line {
+  margin: 5px 0;
   border-top: 1px dashed rgba(37, 105, 207, 0.252);
 }
 
@@ -168,7 +199,6 @@ const props = defineProps<{ data: IResponseDataStatus | null | undefined }>()
   justify-content: center;
   font-size: 20px;
   font-weight: bold;
-  border-radius: 10px;
   overflow: hidden;
   background-color: lightblue;
 }
