@@ -68,7 +68,7 @@ const handleNext = () => {
 const handleChangeIsTwoPage = (value: boolean) => {
   isTwoPage.value = value
   if(page.value % 2 === 0) {
-    page.value --
+    // page.value --
   }
 }
 

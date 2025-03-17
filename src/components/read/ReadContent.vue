@@ -21,10 +21,8 @@ const handleImageLoad = (index: number) => {
 }
 
 const handleScroll = (e: Event) => {
-  if (!props.isTwoPage) return
-
   const readContent = e.target as HTMLElement
-  const images = readContent.querySelectorAll<HTMLImageElement>('box-image img')
+  const images = readContent.querySelectorAll<HTMLImageElement>('.box-image img')
 
   let closestImageIndex = 0
   let closestDistance = Infinity
@@ -38,7 +36,6 @@ const handleScroll = (e: Event) => {
       closestImageIndex = index
     }
   })
-
   props.updatePage(closestImageIndex + 1)
 }
 
@@ -48,9 +45,9 @@ const scrollToCurrentPage = () => {
       const targetElement = document.getElementById(`image-${props.page}`)
 
       if (targetElement) {
-        const img = targetElement.querySelector('img')
+        const isImageLoaded = loadingStatus.value[props.page]
 
-        if (img && img.complete) {
+        if (isImageLoaded) {
           targetElement.scrollIntoView({ behavior: 'auto', block: 'start' })
         } else {
           setTimeout(scrollToCurrentPage, 100)
@@ -74,14 +71,14 @@ watch(
 watch(
   () => route.params.id,
   () => {
-    scrollToCurrentPage
+    scrollToCurrentPage()
   }
 )
 </script>
 
 <template>
   <div class="Read">
-    <div v-if="isVertical" class="read-content vertical" @scroll="handleScroll">
+    <div v-show="isVertical" class="read-content vertical" @scroll="handleScroll">
       <div
         v-for="(item, index) in data?.data.item.chapter_image"
         :key="index"
@@ -98,7 +95,7 @@ watch(
       </div>
     </div>
 
-    <div v-else class="read-content horizontal">
+    <div v-show="!isVertical" class="read-content horizontal">
       <div :class="`box-image ${props.isTwoPage ? 'two-page' : ''}`">
         <template v-if="props.isTwoPage">
           <LoadingView v-if="!loadingStatus[props.page]" />

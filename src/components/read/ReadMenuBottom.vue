@@ -37,7 +37,7 @@ defineProps<{
         <span
           >{{ page < 10 ? '0' : '' }}{{ page }} {{ isTwoPage ? (page < 9 ? '- 0' : '- ') : null
           }}{{ isTwoPage ? page + 1 : null }} {{ '/' }} {{ total && total < 10 ? '0' : ''
-          }}{{ total && total }}</span
+          }}{{ total ? total : "..." }}</span
         >
       </div>
       <div class="button" @click="handleNext">
@@ -84,6 +84,15 @@ defineProps<{
   color: white;
   font-weight: 600;
   font-size: 18px;
+}
+
+.text {
+  color: white;
+  transition: 0.3s;
+}
+
+.text:hover {
+  color: #3c8bc6;
 }
 
 .page span {
