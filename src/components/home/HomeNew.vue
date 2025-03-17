@@ -70,14 +70,14 @@ const props = defineProps<{ data: IDataItem[] }>()
 .new-item .item-left span:first-child {
   font-size: 30px;
   line-height: 1.3em;
-  color: white;
+  color: var(--text-color-1);
   font-weight: 700;
   min-width: 60px;
 }
 
 .new-item .item-left span:nth-child(2) {
   font-size: 14px;
-  color: white;
+  color: var(--text-color-2);
   font-weight: 500;
   overflow: hidden;
   white-space: nowrap;

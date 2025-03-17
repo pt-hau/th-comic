@@ -18,19 +18,16 @@ const id = route.params.id as string
 const dataOther = ref([])
 const isLoad = ref(false)
 
-const handleLoad = () => {
-  isLoad.value = true
-}
-
 const fetchOther = async () => {
   const result = await ListService.getType(type.truyenMoi.id)
   if (result) dataOther.value = result.data.data.items
 }
 
 const fetchDetail = async () => {
+  isLoad.value = false
   const result = await DetailServices.getDetail(id)
   if (result) detailData.value = result.data.data.item
-  handleLoad()
+  setTimeout(()=>(isLoad.value = true),500)
 }
 
 onMounted(() => {

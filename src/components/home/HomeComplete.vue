@@ -42,6 +42,7 @@ const props = defineProps<{ data: IDataItem[] }>()
 <style scoped>
 .complete {
   position: relative;
+  margin-top: 50px;
   width: 100%;
 }
 
@@ -74,15 +75,15 @@ const props = defineProps<{ data: IDataItem[] }>()
 
 .complete-item .item-bottom span:first-child {
   font-size: 16px;
-  color: white;
-  font-weight: 400;
+  color: var(--text-color-1);
+  font-weight: 500;
   line-height: 1.3em;
 }
 
 .complete-item .item-bottom span:nth-child(2) {
   font-size: 12px;
   line-height: 1.3em;
-  color: rgb(199, 196, 196);
+  color: var(--text-color-2);
 }
 
 .complete-item .item-top {

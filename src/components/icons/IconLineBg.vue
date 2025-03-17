@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import { inject } from 'vue'
+const isDarkMode = inject('isDarkMode')
+
+</script>
+
 <template>
   <div class="wave-container">
     <svg
@@ -7,27 +13,27 @@
       preserveAspectRatio="none"
     >
       <defs>
-        <!-- Gradient màu của sóng -->
-        <linearGradient id="wave-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+        <linearGradient id="wave-gradient-light" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#e9dbc7" />
+          <stop offset="100%" stop-color="#F5F0E1" />
+        </linearGradient>
+
+        <linearGradient id="wave-gradient-dark" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stop-color="#1f1f1f" />
           <stop offset="100%" stop-color="#2c2c2c" />
         </linearGradient>
 
-        <!-- Mask để chỉ hiển thị phần path -->
         <mask id="wave-mask">
-          <!-- Màu trắng thể hiện vùng được hiển thị -->
           <path
             d="M 0 0 H 800 V 120 Q 700 250 600 120 Q 500 40 400 120 Q 300 250 200 120 Q 100 40 0 120 Z"
             fill="white"
           />
         </mask>
       </defs>
-
-      <!-- Áp dụng gradient qua mask -->
       <rect
         width="800"
         height="200"
-        fill="url(#wave-gradient)"
+        :fill="isDarkMode ? 'url(#wave-gradient-dark)' : 'url(#wave-gradient-light)'"
         mask="url(#wave-mask)"
       />
     </svg>

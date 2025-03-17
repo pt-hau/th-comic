@@ -4,6 +4,7 @@ import LoginButton from '../buttons/ButtonLogin.vue'
 import SearchButton from '../buttons/ButtonSearch.vue'
 import { onMounted, onUnmounted, ref } from 'vue'
 import { ListService } from '@/services/listService'
+import ButtonDark from '../buttons/ButtonDark.vue'
 
 let hoverTimeout: ReturnType<typeof setTimeout>
 const isOpen = ref(false)
@@ -60,7 +61,7 @@ onMounted(() => {
             @mouseenter="openDropdown"
             @mouseleave="handleMouseLeave"
           >
-            <span>Thể loại</span>
+            <span class="name">Thể loại</span>
             <div
               :class="{ 'dropdown-menu': true, show: isOpen }"
               @mouseenter="openDropdown"
@@ -83,6 +84,7 @@ onMounted(() => {
       <div class="header-button">
         <SearchButton />
         <LoginButton />
+        <ButtonDark />
       </div>
     </div>
   </header>
@@ -97,7 +99,7 @@ header {
   height: 50px;
   backdrop-filter: blur(5px);
   border-bottom: 1px solid #4d4c4c;
-  background-color: var(--bg-banner)/70;
+  background-color: var(--bg-header);
   z-index: 50;
 }
 
@@ -122,7 +124,7 @@ header {
 .header-logo span {
   font-weight: 700;
   font-size: 18px;
-  color: var(--vt-c-white);
+  color: var(--text-color-1);
 }
 
 .header-wrapper {
@@ -158,11 +160,12 @@ header {
 }
 
 .header-nav a.router-link-active {
-  color: var(--vt-c-white);
+  color: var(--text-color-1);
 }
 
-.header-nav a {
-  color: var(--vt-c-white-mute);
+.header-nav a, .header-nav .name {
+  color: var(--text-color-2);
+  font-weight: 500;
 }
 
 .header-button {

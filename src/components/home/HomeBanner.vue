@@ -313,7 +313,7 @@ onBeforeUnmount(() => {
 }
 
 .banner-description span {
-  color: #fff;
+  color: var(--text-color-1);
 }
 
 @keyframes zoomInOut {

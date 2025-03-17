@@ -17,6 +17,6 @@ footer {
 }
 
 footer span {
-  color: var(--vt-c-white)
+  color: var(--text-color-1);
 }
 </style>

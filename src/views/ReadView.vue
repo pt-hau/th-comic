@@ -20,26 +20,24 @@ const page = ref(1)
 const isTwoPage = ref(false)
 const isLoad = ref(false)
 
-const handleLoad = () => {
-  isLoad.value = true
-}
-
-
 const fetchDetail = async () => {
+  isLoad.value = false
   const result = await DetailServices.getDetail(slug)
   if (result) {
     detailData.value = result.data.data.item
   }
-  handleLoad()
+  setTimeout(()=>(isLoad.value = true),500)
 }
 
 const fetchDataRead = async (url: string) => {
+  isLoad.value = false
   page.value = 1
   const result = await DetailServices.getDataRead(url)
   if (result) {
     detailDataRead.value = result.data
     total.value = detailDataRead.value?.data.item.chapter_image.length
   }
+  setTimeout(()=>(isLoad.value = true),500)
 }
 
 onMounted(() => {
@@ -68,7 +66,7 @@ const handleNext = () => {
 const handleChangeIsTwoPage = (value: boolean) => {
   isTwoPage.value = value
   if(page.value % 2 === 0) {
-    // page.value --
+    page.value --
   }
 }
 

@@ -77,8 +77,8 @@ const slidePrev = () => swiperRef.value?.slidePrev()
 
 .swiper-content .title p {
   font-size: 24px;
-  font-weight: 600;
-  color: white;
+  font-weight: 700;
+  color: var(--title-color);
 }
 
 .swiper-swiper {

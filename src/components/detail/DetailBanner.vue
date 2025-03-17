@@ -79,11 +79,6 @@ const handleLoadImage = () => {
   aspect-ratio: 3/4;
 }
 
-/* .image img:hover {
-  animation: none;
-  transform: rotateY(0deg);
-} */
-
 .info {
   flex-grow: 1;
   color: white;
@@ -142,7 +137,6 @@ const handleLoadImage = () => {
 
 .description {
   margin-top: 20px;
-  /* background-color: rgba(255, 255, 255, 0.151); */
   padding: 0.4rem;
   line-height: 1;
   font-size: 14px;
