@@ -8,17 +8,22 @@
 
 <style scoped>
 .login-button {
-  width: 50px;
+  width: 40px;
   height: 30px;
-  background-color: #3c8bc6;
+  background-color: transparent;
   border-radius: 4px;
-  border: none;
+  border: 1px solid var(--title-color);
+  color: var(--title-color);
   transition: 0.3s;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .login-button:hover {
-  background-color:rgb(69, 169, 245);
+  background-color: var(--title-color);
+  color: var(--tex1-color-1);
 }
 
 .login-button span {

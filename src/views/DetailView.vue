@@ -44,6 +44,7 @@ onMounted(() => {
       </div>
       <div class="detail-content">
         <DetailBanner :data="detailData" />
+        <IconLineBg />
         <div class="body">
           <div class="content">
             <div class="body-content">
@@ -56,7 +57,6 @@ onMounted(() => {
             </div>
           </div>
         </div>
-        <IconLineBg />
         <DetailOther :data="dataOther" />
       </div>
     </div>
@@ -87,7 +87,6 @@ onMounted(() => {
 .body {
   width: 100%;
   position: relative;
-  background-color: var(--bg-banner);
 }
 
 .body-content {

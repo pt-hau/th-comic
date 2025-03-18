@@ -1,13 +1,14 @@
 <script setup lang="ts">
+import { inject } from 'vue';
+
 const props = defineProps<{
   background?: string
 }>();
-
-const background = props.background ?? "#111111"
+const isDarkMode = inject('isDarkMode')
 </script>
 
 <template>
-  <div class="loading" :style="`background-color: ${background}`">
+  <div class="loading" :style="`background-color: ${props.background ?? (isDarkMode ? '#111111' : '#F5F0E1')}`">
     <div class="box-img">
       <img src="/images/image-load.png" alt="load img" />
     </div>

@@ -97,7 +97,7 @@ watch(() => currentPage.value, () => {
 
 .title {
   font-size: 30px;
-  color: white;
+  color: var(--title-color);
   font-weight: 600;
 }
 </style>

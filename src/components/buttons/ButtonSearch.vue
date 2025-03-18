@@ -16,8 +16,8 @@ const showSearch = inject('showSearch');
   height: 30px;
   background-color: transparent;
   border-radius: 4px;
-  border: 1px solid white;
-  color: var(--vt-c-white);
+  border: 1px solid var(--title-color);
+  color: var(--title-color);
   transition: 0.3s;
   cursor: pointer;
   display: flex;
@@ -26,7 +26,8 @@ const showSearch = inject('showSearch');
 }
 
 .search-button:hover {
-  background-color:rgba(255, 255, 255, 0.205);
+  background-color: var(--title-color);
+  color: var(--tex1-color-1);
 }
 
 .search-button span {

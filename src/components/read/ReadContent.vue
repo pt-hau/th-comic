@@ -146,6 +146,7 @@ watch(
   min-width: 0;
   display: flex;
   overflow-y: hidden;
+  background-color: var(--bg-banner);
 }
 
 .read-content {
@@ -190,6 +191,7 @@ watch(
 .read-content.horizontal img {
   height: 100%;
   width: auto;
+  max-width: 100%;
   object-fit: contain;
 }
 

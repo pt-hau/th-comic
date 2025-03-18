@@ -45,7 +45,7 @@ const router = createRouter({
     },
     {
       path: '/the-loai/:id',
-      name: 'the-loai/:id',
+      name: 'the-loai',
       component: CategoryView,
     },
     {

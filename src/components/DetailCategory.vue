@@ -64,7 +64,7 @@ onMounted(() => {
   font-size: 32px;
   font-weight: 700;
   position: relative;
-  color: white;
+  color: var(--title-color);
 }
 
 .title-line {
@@ -86,8 +86,8 @@ onMounted(() => {
   box-sizing: border-box;
   padding: 5px 10px;
   margin-bottom: 1px;
-  background-color: #4b4a4a81;
-  color: white;
+  background-color: var(--bg-banner);
+  color: var(--text-color-1);
   cursor: pointer;
   position: relative;
   transition: 0.3s;
@@ -96,16 +96,13 @@ onMounted(() => {
   min-height: 34px;
 }
 
-.some {
+.some, .category-item.some:hover {
   background-color: goldenrod;
+  color: var(--text-color-1);
 }
 
 .category-item:hover {
   color: #3c8bc6;
   background-color: #ffffff;
-}
-
-.chapter-item:hover::before {
-  transform: scaleY(1);
 }
 </style>

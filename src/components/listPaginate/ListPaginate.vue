@@ -75,19 +75,19 @@ const pagination = computed(() => getPagination(props.totalPages ? props.totalPa
   border-radius: 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
-  border: 1px solid #e5e7eb;
-  color: #d1d5db;
+  border: 1px solid var(--title-color);
+  color: var(--title-color);
   transition: background-color 0.3s, color 0.3s;
 }
 
 .pagination-active, .pagination-item:hover {
-  background-color: #3b82f6;
-  border-color: #3b82f6;
+  background-color: var(--title-color);
+  border-color: var(--title-color);
   color: white;
 }
 
 .pagination-dots {
   cursor: default;
-  color: #6b7280;
+  color: var(--title-color);
 }
 </style>

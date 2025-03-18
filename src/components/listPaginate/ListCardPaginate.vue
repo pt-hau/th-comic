@@ -93,7 +93,7 @@ watch(() => props.data?.data.items, (newItems) => {
   aspect-ratio: 2;
   padding: 10px;
   box-sizing: border-box;
-  background-color: rgba(143, 143, 143, 0.174);
+  background-color: var(--bg-banner);
   border-radius: 4px;
   perspective: 1000px;
   display: flex;
@@ -103,6 +103,10 @@ watch(() => props.data?.data.items, (newItems) => {
 }
 
 .card:hover {
+  background-color: #e9dbc775;
+}
+
+.dark .card:hover {
   background-color: rgba(143, 143, 143, 0.326);
 }
 
@@ -124,7 +128,7 @@ watch(() => props.data?.data.items, (newItems) => {
   height: 100%;
   box-sizing: border-box;
   max-width: 600px;
-  color: white;
+  color: var(--text-color-1);
 }
 
 .card-info p {

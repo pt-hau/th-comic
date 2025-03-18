@@ -41,6 +41,7 @@ const props = defineProps<{ data: IDataItem[] }>()
 .other {
   position: relative;
   width: 100%;
+  margin-top: 50px;
 }
 
 .other-content {
@@ -50,13 +51,13 @@ const props = defineProps<{ data: IDataItem[] }>()
 .title p {
   font-size: 24px;
   font-weight: 600;
-  color: white;
+  color: var(--title-color);
 }
 
 .other-items {
   margin-top: 20px;
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
   gap: 20px;
   width: 100%;
 }
@@ -89,7 +90,7 @@ const props = defineProps<{ data: IDataItem[] }>()
 
 .other-item .item-bottom span:first-child {
   font-size: 16px;
-  color: white;
+  color: var(--text-color-1);
   font-weight: 400;
   line-height: 1.3em;
 }
@@ -97,7 +98,7 @@ const props = defineProps<{ data: IDataItem[] }>()
 .other-item .item-bottom span:nth-child(2) {
   font-size: 12px;
   line-height: 1.3em;
-  color: rgb(199, 196, 196);
+  color: var(--text-color-2);
 }
 
 .other-item .item-top {

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { IChapter } from '@/interfaces/detailInterface'
 import router from '@/router'
-import { ref } from 'vue';
-import IconSearch from '../icons/IconSearch.vue';
+import { ref } from 'vue'
+import IconSearch from '../icons/IconSearch.vue'
 
 const props = defineProps<{
   id: string
@@ -17,11 +17,10 @@ const searchQuery = ref('')
 
 const handleSearch = () => {
   const chapterId = document.getElementById(searchQuery.value)
-  if(chapterId) {
-    chapterId.scrollIntoView({ behavior: 'smooth', block: 'start'})
+  if (chapterId) {
+    chapterId.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 }
-
 </script>
 
 <template>
@@ -32,28 +31,35 @@ const handleSearch = () => {
     </div>
     <div class="line"></div>
     <div class="tooltip-container name" @click="router.push(`/chi-tiet/${slug}`)">
-      <p>
-        ❮
-      </p>
-      <p> {{ name }}  {{ name }}  {{ name }}</p>
+      <p>❮</p>
+      <p>{{ name }} {{ name }} {{ name }}</p>
       <div class="tooltip-text">Quay lại trang chi tiết</div>
     </div>
     <div class="reading-mode">
-      <span :class="`${isVertical ? 'active' : '' }`" @click="() => handleChangeVertical(true)">Hiển thị dọc</span>
-      <span :class="`${!isVertical ? 'active' : '' }`" @click="() => handleChangeVertical(false)">Hiển thị ngang</span>
+      <span :class="`${isVertical ? 'active' : ''}`" @click="() => handleChangeVertical(true)"
+        >Hiển thị dọc</span
+      >
+      <span :class="`${!isVertical ? 'active' : ''}`" @click="() => handleChangeVertical(false)"
+        >Hiển thị ngang</span
+      >
     </div>
     <div class="chapters">
       <p class="title">Chương: {{ id }}</p>
       <div class="chapters-line"></div>
       <div class="search">
-        <input class="search-input" v-model="searchQuery" @input="handleSearch" placeholder="Tìm chương, ví dụ: 124" />
-        <div class="search-icon"><IconSearch /> </div>
+        <input
+          class="search-input"
+          v-model="searchQuery"
+          @input="handleSearch"
+          placeholder="Tìm chương, ví dụ: 124"
+        />
+        <div class="search-icon"><IconSearch /></div>
       </div>
       <div class="chapter-items">
         <div v-if="data && data.length > 0">
           <div
             :id="item.chapter_name"
-            :class="`chapter-item ${searchQuery === item.chapter_name ? 'isSearch' : '' }`"
+            :class="`chapter-item ${searchQuery === item.chapter_name ? 'isSearch' : ''}`"
             v-for="(item, index) in data[0].server_data"
             :key="index"
             @click="() => router.push('/doc/' + slug + '/chuong/' + item.chapter_name)"
@@ -62,8 +68,8 @@ const handleSearch = () => {
           </div>
         </div>
       </div>
+      <div class="chapters-line"></div>
     </div>
-    <div class="chapters-line"></div>
   </div>
 </template>
 
@@ -73,7 +79,6 @@ const handleSearch = () => {
   min-width: 250px;
   height: 100vh;
   box-sizing: border-box;
-  background-color: var(--bg-banner);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -91,14 +96,14 @@ const handleSearch = () => {
   margin-top: 5px;
   width: 100%;
   min-height: 1px;
-  background-color: #3c8bc6;
+  background-color: var(--title-color);
   margin-bottom: 10px;
 }
 
 .header-logo span {
   font-weight: 700;
   font-size: 24px;
-  color: var(--vt-c-white);
+  color: var(--title-color);
 }
 
 .name {
@@ -109,7 +114,7 @@ const handleSearch = () => {
 .name p {
   font-weight: 600;
   font-size: 16px;
-  color: var(--vt-c-white);
+  color: var(--title-color);
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -141,11 +146,11 @@ const handleSearch = () => {
   position: relative;
   color: white;
   border-radius: 8px 8px 0 0;
-  background-color: #3c8bc6;
+  background-color: var(--title-color);
 }
 
 .chapters-line {
-  background-color: #3c8bc6;
+  background-color: var(--title-color);
   width: 100%;
   min-height: 4px;
 }
@@ -158,7 +163,7 @@ const handleSearch = () => {
 
 .reading-mode span {
   font-size: 14px;
-  color: white;
+  color: var(--text-color-1);
   font-weight: 500;
   padding: 5px;
   border-radius: 4px;
@@ -168,17 +173,19 @@ const handleSearch = () => {
 
 .reading-mode span.active {
   background-color: goldenrod !important;
+  color: var(--text-color-1) !important;
 }
 
 .reading-mode span:hover {
-  background-color: rgba(218, 165, 32, 0.425);
+  color: #3c8bc6;
+  background-color: #ffffff;
 }
-
 
 .chapter-items {
   overflow-y: auto;
   flex-grow: 1;
   min-height: 0;
+  max-height: max-content;
 }
 
 .chapter-item {
@@ -186,8 +193,8 @@ const handleSearch = () => {
   font-size: 12px;
   font-weight: 500;
   margin-bottom: 1px;
-  background-color: #4b4a4a81;
-  color: white;
+  background-color: var(--bg-banner);
+  color: var(--text-color-1);
   cursor: pointer;
   position: relative;
   transition: 0.3s;
@@ -217,12 +224,14 @@ const handleSearch = () => {
   transition: transform 0.3s;
 }
 
-.chapter-item:hover, .chapter-item.isSearch {
+.chapter-item:hover,
+.chapter-item.isSearch {
   color: #3c8bc6;
   background-color: #ffffff;
 }
 
-.chapter-item:hover::before, .chapter-item.isSearch::before {
+.chapter-item:hover::before,
+.chapter-item.isSearch::before {
   transform: scaleY(1);
 }
 
@@ -232,7 +241,7 @@ const handleSearch = () => {
   font-size: 12px;
   font-weight: 500;
   margin-bottom: 1px;
-  background-color: #666565;
+  background-color: #ffffff7e;
   width: 100%;
   transition: 0.3s;
   position: relative;
@@ -242,22 +251,26 @@ const handleSearch = () => {
 .search-input {
   border: none;
   outline: none;
-  color: white;
+  color: var(--text-color-1);
   width: 100%;
   background-color: transparent;
 }
 
 .search-input::placeholder {
-  color: #b0b0b0;
+  color: var(--text-color-2);
 }
 
 .search:hover {
-  background-color: #7b7b7b;
+  background-color: #ffffff;
+}
+
+.dark .search:hover {
+  background-color: #505050;
 }
 
 .search-icon {
   width: 40px;
-  color: white;
+  color: var(--text-color-1);
   position: absolute;
   right: 0;
   top: 0;

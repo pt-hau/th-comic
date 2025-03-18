@@ -88,11 +88,11 @@ const handleSearch = () => {
   position: relative;
   color: white;
   border-radius: 8px 8px 0 0;
-  background-color: #3c8bc6;
+  background-color: var(--title-color);
 }
 
 .title-line {
-  background-color: #3c8bc6;
+  background-color: var(--title-color);
   border-radius: 0 8px 0 0;
   width: 100%;
   height: 4px;
@@ -108,8 +108,8 @@ const handleSearch = () => {
 .chapter-item {
   padding: 10px;
   margin-bottom: 1px;
-  background-color: #4b4a4a81;
-  color: white;
+  background-color: var(--bg-banner);
+  color: var(--text-color-1);
   cursor: pointer;
   position: relative;
   min-height: 25px;
@@ -144,7 +144,7 @@ const handleSearch = () => {
   font-size: 12px;
   font-weight: 500;
   margin-bottom: 1px;
-  background-color: #666565;
+  background-color: #ffffff7e;
   width: 100%;
   transition: 0.3s;
   position: relative;
@@ -154,22 +154,26 @@ const handleSearch = () => {
 .search-input {
   border: none;
   outline: none;
-  color: white;
+  color: var(--text-color-1);
   width: 100%;
   background-color: transparent;
 }
 
 .search-input::placeholder {
-  color: #b0b0b0;
+  color: var(--text-color-2);
 }
 
 .search:hover {
-  background-color: #7b7b7b;
+  background-color: #ffffff;
+}
+
+.dark .search:hover {
+  background-color: #505050;
 }
 
 .search-icon {
   width: 40px;
-  color: white;
+  color: var(--text-color-1);
   position: absolute;
   right: 0;
   top: 0;

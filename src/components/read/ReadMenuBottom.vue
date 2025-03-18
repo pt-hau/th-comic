@@ -53,9 +53,13 @@ defineProps<{
   height: 50px;
   min-height: 50px;
   width: 100%;
-  background-color: rgb(24, 23, 23);
+  background-color: rgba(255, 255, 255, 0.5);
   padding: 0 20px;
   box-sizing: border-box;
+}
+
+.dark .bottom {
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 .bottom-content {
@@ -75,28 +79,24 @@ defineProps<{
 }
 
 .icon {
-  color: #3c8bc6;
+  color: var(--title-color);
   font-size: 26px;
   font-weight: 600;
 }
 
 .text {
-  color: white;
+  color: var(--text-color-1);
   font-weight: 600;
   font-size: 18px;
-}
-
-.text {
-  color: white;
   transition: 0.3s;
 }
 
 .text:hover {
-  color: #3c8bc6;
+  color: var(--title-color);
 }
 
 .page span {
-  color: rgb(146, 145, 145);
+  color: var(--text-color-2);
   font-weight: 700;
   font-size: 18px;
 }
@@ -129,7 +129,7 @@ defineProps<{
   width: 22px;
   height: 2px;
   border-radius: 2px;
-  background-color: #3c8bc6;
+  background-color: var(--title-color);
   transform: scaleX(0);
   transition: 0.3s;
 }
@@ -147,6 +147,6 @@ defineProps<{
 }
 
 .action-span.active span {
-  background-color: #3c8bc6;
+  background-color: var(--title-color);
 }
 </style>

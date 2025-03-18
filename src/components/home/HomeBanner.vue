@@ -13,9 +13,13 @@ const onImageLoad = (index: number) => {
   loadedImages.value[index] = true
 }
 
-watch(() => props.data, (newData) => {
-  loadedImages.value = new Array(newData.length).fill(false);
-}, { immediate: true })
+watch(
+  () => props.data,
+  (newData) => {
+    loadedImages.value = new Array(newData.length).fill(false)
+  },
+  { immediate: true }
+)
 
 const nextSlide = () => {
   itemIndex.value = (itemIndex.value + 1) % props.data.length
@@ -181,7 +185,7 @@ onBeforeUnmount(() => {
 .banner-info {
   position: absolute;
   width: 100%;
-  max-width: 600px;
+  max-width: 55%;
   top: 50%;
   left: 30px;
   color: white;
@@ -200,6 +204,7 @@ onBeforeUnmount(() => {
   -webkit-box-orient: vertical;
   box-orient: vertical;
   overflow: hidden;
+  line-height: 1.2em;
   text-overflow: ellipsis;
 }
 
@@ -215,8 +220,8 @@ onBeforeUnmount(() => {
   font-size: 14px;
   font-weight: 400;
   margin-bottom: 10px;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
 }
 
 .banner-categories {
@@ -224,11 +229,11 @@ onBeforeUnmount(() => {
 }
 
 .banner-categories .banner-category {
-  margin: 0 3px 6px 0;
+  margin: 0 2px 2px 0;
   border: 1px solid rgba(255, 255, 255, 0.5);
-  padding: 0.3rem 0.5rem;
-  line-height: 1;
+  padding: 0.1rem 0.5rem;
   border-radius: 0.2rem;
+  display: inline-block;
   font-size: 0.8em;
 }
 
@@ -240,7 +245,6 @@ onBeforeUnmount(() => {
 .banner-buttons .banner-button {
   font-weight: 500;
   font-size: 14px;
-  line-height: 40px;
   padding: 8px 20px;
   border-radius: 4px;
   margin-right: 10px;
@@ -258,9 +262,9 @@ onBeforeUnmount(() => {
 
 .banner-poster {
   position: absolute;
-  top: -70px;
-  left: 660px;
-  width: 350px;
+  top: -20%;
+  left: 60%;
+  width: 30%;
 }
 
 .banner-poster-shadow {
@@ -314,6 +318,114 @@ onBeforeUnmount(() => {
 
 .banner-description span {
   color: var(--text-color-1);
+}
+
+@media (max-width: 1080px) {
+  .banner-items {
+    aspect-ratio: 9/4;
+  }
+
+  .banner-poster {
+    position: absolute;
+    top: -5%;
+    left: 60%;
+    width: 30%;
+  }
+
+  .banner-info {
+    left: 20px;
+  }
+
+  .banner-info p:first-child {
+    font-size: 14px;
+  }
+
+  .banner-info p:nth-child(2) {
+    font-size: 24px;
+  }
+
+  .banner-info p:nth-child(3) {
+    font-size: 12px;
+  }
+
+  .banner-buttons {
+    display: block;
+    margin-top: 10px;
+  }
+
+  .banner-buttons .banner-button {
+    font-weight: 500;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 768px) {
+  .banner-items {
+    aspect-ratio: 2;
+  }
+
+  .banner-poster {
+    position: absolute;
+    top: 5%;
+    left: 70%;
+    width: 30%;
+  }
+
+  .banner-info {
+    max-width: 65%;
+  }
+
+  .banner-poster-content,
+  .banner-poster-shadow {
+    border: 5px solid #fff;
+  }
+
+  .banner-info p:first-child {
+    font-size: 12px;
+  }
+
+  .banner-info p:nth-child(3) {
+    display: none;
+  }
+
+  .banner-buttons .banner-button {
+    font-size: 12px;
+  }
+
+  .banner-categories .banner-category {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .banner-info p:nth-child(2) {
+    font-size: 18px;
+  }
+  .banner-info p:nth-child(1) {
+    display: none;
+  }
+
+  .banner-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .banner-buttons .banner-button {
+    width: max-content;
+    height: max-content;
+    padding: 5px 10px;
+  }
+
+  .banner-description {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 540px) {
+  .banner-info p:nth-child(2) {
+    font-size: 16px;
+  }
 }
 
 @keyframes zoomInOut {

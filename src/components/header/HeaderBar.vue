@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import router from '@/router'
-import LoginButton from '../buttons/ButtonLogin.vue'
 import SearchButton from '../buttons/ButtonSearch.vue'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { inject, onMounted  , ref } from 'vue'
 import { ListService } from '@/services/listService'
 import ButtonDark from '../buttons/ButtonDark.vue'
+import { useRoute } from 'vue-router'
+import IconMenu from '../icons/IconMenu.vue'
 
 let hoverTimeout: ReturnType<typeof setTimeout>
 const isOpen = ref(false)
-
+const route = useRoute()
 const categories = ref<IResponseDataCategory[] | null>(null)
+const toggleMenu = inject('toggleMenu') as () => void
 
 const fetchCategories = async () => {
   const result = await ListService.getCategories()
@@ -46,6 +48,9 @@ onMounted(() => {
 <template>
   <header>
     <div class="header-content">
+      <div class="icon-menu" @click="toggleMenu">
+          <IconMenu />
+        </div>
       <div class="header-logo" @click="router.push('/')">
         <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="50" />
         <span>Manga</span>
@@ -57,11 +62,13 @@ onMounted(() => {
           <RouterLink to="/hoan-thanh">Hoàn thành</RouterLink>
 
           <a
+          :class="['dropdown-container relative inline-block menu-link']"
+
             class="dropdown-container relative inline-block menu-link"
             @mouseenter="openDropdown"
             @mouseleave="handleMouseLeave"
           >
-            <span class="name">Thể loại</span>
+            <span :class="`name ${route.name == 'the-loai' ? 'active' : ''}`">Thể loại</span>
             <div
               :class="{ 'dropdown-menu': true, show: isOpen }"
               @mouseenter="openDropdown"
@@ -83,7 +90,7 @@ onMounted(() => {
       </div>
       <div class="header-button">
         <SearchButton />
-        <LoginButton />
+        <!-- <LoginButton /> -->
         <ButtonDark />
       </div>
     </div>
@@ -114,6 +121,11 @@ header {
   padding: 0 2rem;
 }
 
+.icon-menu {
+  display: none;
+  cursor: pointer;
+}
+
 .header-logo {
   display: flex;
   gap: 5px;
@@ -124,11 +136,10 @@ header {
 .header-logo span {
   font-weight: 700;
   font-size: 18px;
-  color: var(--text-color-1);
+  color: var(--title-color);
 }
 
 .header-wrapper {
-  flex-grow: 1;
   position: relative;
 }
 
@@ -143,24 +154,20 @@ header {
   position: relative;
 }
 
-.header-nav a::after {
+.header-nav a::before {
   content: '';
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
   height: 2px;
-  background-color: rgb(37, 105, 207);
+  background-color: var(--title-color);
   transform: scaleX(0);
   transition: transform 0.3s;
 }
 
-.header-nav a:hover::after {
+.header-nav a:hover::before {
   transform: scaleX(1);
-}
-
-.header-nav a.router-link-active {
-  color: var(--text-color-1);
 }
 
 .header-nav a, .header-nav .name {
@@ -171,6 +178,8 @@ header {
 .header-button {
   display: flex;
   gap: 10px;
+  flex-grow: 1;
+  justify-content: end;
 }
 
 .menu-link {
@@ -200,12 +209,18 @@ header {
   transform: translate(-50%);
 }
 
+.dark .dropdown-menu .menu {
+  border: 1px solid rgb(141, 141, 141);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: rgb(47, 47, 47);
+}
+
 .dropdown-menu .menu {
   border-radius: 8px;
   border: 1px solid rgb(141, 141, 141);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   width: 100%;
-  background-color: rgb(47, 47, 47);
+  background-color: #dac6a9;
   max-width: 50vw;
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
@@ -215,7 +230,7 @@ header {
 
 .dropdown-menu .menu .category-item {
   padding: 3px 10px;
-  color: white;
+  color: var(--text-color-1);
   transition: 0.3s;
   font-size: 14px;
 }
@@ -224,4 +239,17 @@ header {
   background-color: white;
   color: #3c8bc6;
 }
+
+@media (max-width: 868px) {
+  .header-wrapper {
+    display: none;
+  }
+
+  .icon-menu {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+}
+
 </style>

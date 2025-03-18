@@ -81,7 +81,7 @@ const handleLoadImage = () => {
 
 .info {
   flex-grow: 1;
-  color: white;
+  color: var(--text-color-1);
 }
 
 .name {
@@ -89,7 +89,7 @@ const handleLoadImage = () => {
   font-size: 30px;
   font-weight: 700;
   position: relative;
-  color: #3c8bc6;
+  color: var(--title-color);
 }
 
 .name::before {
@@ -128,7 +128,7 @@ const handleLoadImage = () => {
 
 .category span {
   margin: 0 3px 0px 0;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid var(--text-color-2);
   padding: 0.2rem 0.4rem;
   line-height: 1;
   font-size: 12px;
@@ -147,7 +147,7 @@ const handleLoadImage = () => {
   padding: 10px 20px;
   font-size: 16px;
   font-weight: 600;
-  background: #3c8bc6;
+  background: var(--title-color);
   color: white;
   border-radius: 4px;
 }
