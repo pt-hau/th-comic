@@ -155,7 +155,6 @@ onMounted(() => {
   }
   document.addEventListener('mousemove', handleMouseMove)
   document.addEventListener('mouseup', handleMouseUp)
-  document.addEventListener('touchmove', handleMouseMove, { passive: false })
   document.addEventListener('touchend', handleMouseUp)
   window.addEventListener('resize', handleResize)
 })
@@ -163,7 +162,6 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('mousemove', handleMouseMove)
   document.removeEventListener('mouseup', handleMouseUp)
-  document.removeEventListener('touchmove', handleMouseMove)
   document.removeEventListener('touchend', handleMouseUp)
   window.removeEventListener('resize', handleResize)
 })
