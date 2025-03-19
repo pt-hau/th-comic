@@ -96,7 +96,7 @@ onUnmounted(() => {
 <style scoped>
 .menu {
   width: max-content;
-  height: 100vh;
+  height: 100dvh;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -106,7 +106,7 @@ onUnmounted(() => {
 .menu-content {
   width: 250px;
   min-width: 250px;
-  height: 100vh;
+  height: 100%;
   box-sizing: border-box;
   padding: 20px;
   display: flex;
