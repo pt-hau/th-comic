@@ -243,6 +243,7 @@ onUnmounted(() => {
 .read {
   flex-grow: 1;
   position: relative;
+  touch-action: none;
 }
 
 .load {
