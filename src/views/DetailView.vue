@@ -27,7 +27,7 @@ const fetchDetail = async () => {
   isLoad.value = false
   const result = await DetailServices.getDetail(id)
   if (result) detailData.value = result.data.data.item
-  setTimeout(()=>(isLoad.value = true),500)
+  setTimeout(() => (isLoad.value = true), 500)
 }
 
 onMounted(() => {
@@ -76,7 +76,7 @@ onMounted(() => {
   height: 100vh;
   padding-top: 50px;
   position: fixed;
-  z-index: 2;
+  z-index: 100;
 }
 
 .detail-content {
@@ -93,5 +93,13 @@ onMounted(() => {
   display: grid;
   grid-template-columns: 3fr 2fr;
   gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .body-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 }
 </style>

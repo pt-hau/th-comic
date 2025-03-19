@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CardRotateY from '../cards/CardRotateY.vue'
-import LoadingView from '../LoadingView.vue';
+import LoadingView from '../LoadingView.vue'
 
 const props = defineProps<{ data: IDataItem[] }>()
 </script>
@@ -8,7 +8,7 @@ const props = defineProps<{ data: IDataItem[] }>()
 <template>
   <div class="other">
     <div class="content">
-      <div class="title"><p>Có thể bạn sẽ thích</p></div>
+      <p class="title-content">Có thể bạn sẽ thích</p>
       <div class="other-items" v-if="props.data.length > 0">
         <div v-for="(item, index) in props.data" :key="index" class="other-item">
           <div class="item-top">
@@ -21,12 +21,11 @@ const props = defineProps<{ data: IDataItem[] }>()
         </div>
       </div>
       <div class="other-items" v-else>
-        <div v-for="item, index in 20" :key="index" class="other-item">
+        <div v-for="(item, index) in 20" :key="index" class="other-item">
           <div class="item-top">
-            <LoadingView  class="load"/>
+            <LoadingView class="load" />
           </div>
-          <div class="item-bottom">
-          </div>
+          <div class="item-bottom"></div>
         </div>
       </div>
     </div>
@@ -57,7 +56,7 @@ const props = defineProps<{ data: IDataItem[] }>()
 .other-items {
   margin-top: 20px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 20px;
   width: 100%;
 }
@@ -103,5 +102,11 @@ const props = defineProps<{ data: IDataItem[] }>()
 
 .other-item .item-top {
   aspect-ratio: 3/4;
+}
+
+@media (max-width: 640px) {
+  .other-items {
+    gap: 10px;
+  }
 }
 </style>

@@ -11,13 +11,13 @@ const props = defineProps<{
   route: string
 }>()
 const data = ref<IResponseDataStatus>()
-const currentPage = ref(1);
+const currentPage = ref(1)
 function handlePageChange(page: number) {
-  currentPage.value = page;
+  currentPage.value = page
 }
 
 const fetchData = async () => {
-  const result = await ListService.getCategoryPage(props.route , currentPage.value)
+  const result = await ListService.getCategoryPage(props.route, currentPage.value)
   if (result) data.value = result.data
 }
 
@@ -32,45 +32,57 @@ onMounted(() => {
   fetchData()
 })
 
-watch(() => props.route, () => {
-  currentPage.value = 1
-  handleScroll()
-  fetchData()
-})
+watch(
+  () => props.route,
+  () => {
+    currentPage.value = 1
+    handleScroll()
+    fetchData()
+  }
+)
 
-watch(() => currentPage.value, () => {
-  fetchData()
-  handleScroll()
-})
+watch(
+  () => currentPage.value,
+  () => {
+    fetchData()
+    handleScroll()
+  }
+)
 </script>
 
 <template>
-    <div class="status">
-      <div class="status-content">
-        <div class="body">
-          <div class="content">
-            <div class="body-content">
-              <div class="left">
-                <p class="title">{{ props.name }} ❯ {{ data?.data.seoOnPage.titleHead }}</p>
-                <ListCardPaginate :data="data" />
-                <ListPaginate
-                  :totalPages="data?.data.params.pagination.pageRanges"
-                  :currentPage="currentPage"
-                  :onPageChange="handlePageChange"
-                />
-              </div>
-              <div class="right">
-                <DetailCategory :data="[{
-                  id: data?.data.type_list,
-                  slug: data?.data.type_list,
-                  name: data?.data.type_list
-                }] as ICategory[]" />
-              </div>
+  <div class="status">
+    <div class="status-content">
+      <div class="body">
+        <div class="content">
+          <div class="body-content">
+            <div class="left">
+              <p class="title-content">{{ props.name }} ❯ {{ data?.data.seoOnPage.titleHead }}</p>
+              <ListCardPaginate :data="data" />
+              <ListPaginate
+                :totalPages="data?.data.params.pagination.pageRanges"
+                :currentPage="currentPage"
+                :onPageChange="handlePageChange"
+              />
+            </div>
+            <div class="right">
+              <DetailCategory
+                :data="
+                  [
+                    {
+                      id: data?.data.type_list,
+                      slug: data?.data.type_list,
+                      name: data?.data.type_list
+                    }
+                  ] as ICategory[]
+                "
+              />
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <style scoped>
@@ -99,5 +111,13 @@ watch(() => currentPage.value, () => {
   font-size: 30px;
   color: var(--title-color);
   font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .body-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 }
 </style>

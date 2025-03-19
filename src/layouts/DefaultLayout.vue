@@ -1,19 +1,27 @@
 <script setup lang="ts">
-  import HeaderBar from '@/components/header/HeaderBar.vue';
-  import FooterBar from '@/components/footer/FooterBar.vue';
-import { provide, ref } from 'vue';
-import ModalSearch from '@/components/modals/ModalSearch.vue';
-import HeaderMenu from '@/components/header/HeaderMenu.vue';
-  const showSearch = ref(false)
-  const showMenu = ref(false)
+import HeaderBar from '@/components/header/HeaderBar.vue'
+import FooterBar from '@/components/footer/FooterBar.vue'
+import { provide, ref, watch } from 'vue'
+import ModalSearch from '@/components/modals/ModalSearch.vue'
+import HeaderMenu from '@/components/header/HeaderMenu.vue'
+import { useRoute } from 'vue-router'
+const showSearch = ref(false)
+const showMenu = ref(false)
+const route = useRoute()
 
-  const toggleMenu = () => {
-    showMenu.value = !showMenu.value
+const toggleMenu = () => {
+  showMenu.value = !showMenu.value
+}
+provide('showSearch', showSearch)
+provide('showMenu', showMenu)
+provide('toggleMenu', toggleMenu)
+
+watch(
+  () => route.fullPath,
+  () => {
+    showMenu.value = false
   }
-  provide('showSearch',showSearch);
-  provide('showMenu',showMenu);
-  provide('toggleMenu',toggleMenu);
-
+)
 </script>
 
 <template>

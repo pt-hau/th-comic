@@ -1,6 +1,10 @@
+<script setup lang="ts">
+const currentYear = new Date().getFullYear()
+</script>
+
 <template>
   <footer>
-    <span>© 2024 TH Comic. All Rights Reserved.</span>
+    <span>© {{ currentYear }} TH Comic. All Rights Reserved.</span>
   </footer>
 </template>
 

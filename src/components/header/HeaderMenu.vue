@@ -1,16 +1,15 @@
 <script setup lang="ts">
 import router from '@/router'
-import SearchButton from '../buttons/ButtonSearch.vue'
 import { inject, onMounted, ref } from 'vue'
 import { ListService } from '@/services/listService'
-import ButtonDark from '../buttons/ButtonDark.vue'
 import { useRoute } from 'vue-router'
-import IconMenu from '../icons/IconMenu.vue'
 
 const isOpen = ref(false)
 const route = useRoute()
 const categories = ref<IResponseDataCategory[] | null>(null)
 const showMenu = inject('showMenu')
+const toggleMenu = inject('toggleMenu') as () => void
+
 const fetchCategories = async () => {
   const result = await ListService.getCategories()
   categories.value = result.data.data.items
@@ -33,8 +32,9 @@ onMounted(() => {
         show: showMenu
       }
     ]"
+    @click="toggleMenu"
   >
-    <div class="header-menu-content">
+    <div class="header-menu-content" @click.stop>
         <nav class="header-menu-nav">
           <RouterLink to="/truyen-moi">Truyện mới</RouterLink>
           <RouterLink to="/dang-phat-hanh">Đang phát hành</RouterLink>

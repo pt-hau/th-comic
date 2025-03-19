@@ -19,6 +19,14 @@ function handlePageChange(page: number) {
 const fetchDataStatus = async () => {
   const result = await ListService.getTypePage(props.route , currentPage.value)
   if (result) dataStatus.value = result.data
+  handleScroll()
+}
+
+const handleScroll = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
 }
 
 onMounted(() => {
@@ -37,7 +45,7 @@ watch(() => currentPage.value, () => {
           <div class="content">
             <div class="body-content">
               <div class="left">
-                <p class="title">{{ props.name }}</p>
+                <p class="title-content">{{ props.name }}</p>
                 <ListCardPaginate :data="dataStatus" />
                 <ListPaginate
                   :totalPages="dataStatus?.data.params.pagination.pageRanges"
@@ -81,5 +89,13 @@ watch(() => currentPage.value, () => {
   font-size: 30px;
   color: var(--title-color);
   font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .body-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 }
 </style>

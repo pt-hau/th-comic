@@ -27,12 +27,8 @@ const toggleMenu = () => {
 <style scoped>
 .menu-icon {
   cursor: pointer;
-  color: var(--text-color-2);
+  color: var(--text-color-1);
   transition: color 0.3s;
   display: flex;
-}
-
-.menu-icon:hover {
-  color: var(--title-color);
 }
 </style>

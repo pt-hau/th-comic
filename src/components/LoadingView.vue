@@ -22,10 +22,12 @@ const isDarkMode = inject('isDarkMode')
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
 .box-img {
   height: 30%;
+  max-height: 30%;
   aspect-ratio: 3/4;
   perspective: 1000px;
 }

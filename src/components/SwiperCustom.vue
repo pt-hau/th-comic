@@ -19,7 +19,7 @@ const slidePrev = () => swiperRef.value?.slidePrev()
 
 <template>
   <div class="swiper-content">
-    <div class="title"><p>{{ props.name }}</p></div>
+    <p class="title-content">{{ props.name }}</p>
     <div class="swiper-buttons">
       <div class="swiper-button" @click="slidePrev">❮</div>
       <div class="swiper-button" @click="slideNext">❯</div>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import router from '@/router'
 import SearchButton from '../buttons/ButtonSearch.vue'
-import { inject, onMounted  , ref } from 'vue'
+import { inject, onMounted, ref } from 'vue'
 import { ListService } from '@/services/listService'
 import ButtonDark from '../buttons/ButtonDark.vue'
 import { useRoute } from 'vue-router'
@@ -30,15 +30,11 @@ const closeDropdown = () => {
 }
 
 const handleMouseLeave = (event: MouseEvent) => {
-  const relatedTarget = event.relatedTarget as HTMLElement;
-  if (
-    !relatedTarget?.closest('.dropdown-menu') &&
-    !relatedTarget?.closest('.dropdown-container')
-  ) {
-    closeDropdown();
+  const relatedTarget = event.relatedTarget as HTMLElement
+  if (!relatedTarget?.closest('.dropdown-menu') && !relatedTarget?.closest('.dropdown-container')) {
+    closeDropdown()
   }
-};
-
+}
 
 onMounted(() => {
   fetchCategories()
@@ -49,8 +45,8 @@ onMounted(() => {
   <header>
     <div class="header-content">
       <div class="icon-menu" @click="toggleMenu">
-          <IconMenu />
-        </div>
+        <IconMenu />
+      </div>
       <div class="header-logo" @click="router.push('/')">
         <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="50" />
         <span>Manga</span>
@@ -62,8 +58,7 @@ onMounted(() => {
           <RouterLink to="/hoan-thanh">Hoàn thành</RouterLink>
 
           <a
-          :class="['dropdown-container relative inline-block menu-link']"
-
+            :class="['dropdown-container relative inline-block menu-link']"
             class="dropdown-container relative inline-block menu-link"
             @mouseenter="openDropdown"
             @mouseleave="handleMouseLeave"
@@ -76,13 +71,13 @@ onMounted(() => {
             >
               <div class="menu">
                 <div
-                @click="router.push(`/the-loai/${item.slug}`)"
-                class="category-item"
-                v-for="(item, index) in categories"
-                :key="index"
-              >
-                <span>{{ item?.name }}</span>
-              </div>
+                  @click="router.push(`/the-loai/${item.slug}`)"
+                  class="category-item"
+                  v-for="(item, index) in categories"
+                  :key="index"
+                >
+                  <span>{{ item?.name }}</span>
+                </div>
               </div>
             </div>
           </a>
@@ -170,7 +165,8 @@ header {
   transform: scaleX(1);
 }
 
-.header-nav a, .header-nav .name {
+.header-nav a,
+.header-nav .name {
   color: var(--text-color-2);
   font-weight: 500;
 }
@@ -205,7 +201,7 @@ header {
 
 .dropdown-menu.show {
   opacity: 1;
-  visibility:initial;
+  visibility: initial;
   transform: translate(-50%);
 }
 
@@ -223,7 +219,7 @@ header {
   background-color: #dac6a9;
   max-width: 50vw;
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   max-height: 80vh;
   overflow-y: auto;
 }
@@ -246,10 +242,15 @@ header {
   }
 
   .icon-menu {
-  display: flex;
-  align-items: center;
-  margin-right: 20px;
-}
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
 }
 
+@media (max-width: 768px) {
+  .header-content {
+    padding: 0 1rem;
+  }
+}
 </style>

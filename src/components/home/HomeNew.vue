@@ -1,16 +1,31 @@
 <script setup lang="ts">
+import { onMounted, onUnmounted, ref } from 'vue';
 import CardRotateY from '../cards/CardRotateY.vue'
-import IconLineBg from '../icons/IconLineBg.vue'
 import LoadingView from '../LoadingView.vue'
 import SwiperCustom from '../SwiperCustom.vue'
 
 const props = defineProps<{ data: IDataItem[] }>()
+
+const numberShow = ref(5)
+
+const updateNumberShow = () => {
+  numberShow.value = window.innerWidth > 1280 ? 5 : window.innerWidth > 1080 ? 4 : window.innerWidth > 768 ? 3: 2
+}
+
+onMounted(() => {
+  updateNumberShow()
+  window.addEventListener('resize', updateNumberShow)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateNumberShow)
+})
 </script>
 
 <template>
   <div class="new">
     <div class="content">
-      <SwiperCustom :name="'Truyện mới'" :numberShow="5" :data="props.data">
+      <SwiperCustom :name="'Truyện mới'" :numberShow="numberShow" :data="props.data">
         <template #loading="{index}">
           <div class="new-item">
             <div class="item-right">

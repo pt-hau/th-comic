@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import router from '@/router';
-import LoadingView from '../LoadingView.vue';
-import { onMounted, ref, watch } from 'vue';
+import LoadingView from '../LoadingView.vue'
+import { onMounted, ref, watch } from 'vue'
 
 const props = defineProps<{ data: IResponseDataStatus | null | undefined }>()
 
@@ -17,63 +16,71 @@ const onImageLoad = (index: number) => {
   loadedImages.value[index] = true
 }
 
-watch(() => props.data?.data.items, (newItems) => {
-  if (newItems) {
-    loadedImages.value = newItems.map(() => false)
+watch(
+  () => props.data?.data.items,
+  (newItems) => {
+    if (newItems) {
+      loadedImages.value = newItems.map(() => false)
+    }
   }
-})
+)
 </script>
 
 <template>
   <div class="list">
     <div class="cards" v-if="data == null">
-    <div v-for="index in 24" :key="index" class="card">
-      <div class="card-image">
-      <div class="card-face front">
-        <LoadingView class="image-card" />
-      </div>
-    </div>
-    </div>
-  </div>
-  <div class="cards" v-else >
-    <div v-for="(item, index) in data?.data.items" :key="index" class="card" @click="() => router.push(`/chi-tiet/${item.slug}`)">
-      <div class="card-image">
-      <div class="card-face front">
-        <div v-if="!loadedImages[index]"><LoadingView /> </div>
-        <img
-        v-show="loadedImages[index]"
-          :src="`https://otruyen.cc/_next/image?url=https://img.otruyenapi.com/uploads/comics/${item.thumb_url}&w=1200&q=100`"
-          alt="image"
-          class="img-card"
-          @load="onImageLoad(index)"
-        />
-      </div>
-
-      <div class="card-face back">
-        <img
-          :src="`https://otruyen.cc/_next/image?url=https://img.otruyenapi.com/uploads/comics/${item.thumb_url}&w=1200&q=100`"
-          alt="image"
-          class="img-card rotate-y-180"
-        />
-        <div class="card-overlay">
-          <div class="card-info">
-            <div class="card-buttons">
-              <a :href="`/doc/${item.slug}/chuong/1`" class="card-button">Đọc truyện</a>
-              <a :href="'/chi-tiet/' + item.slug" class="card-button">Xem thông tin</a>
-            </div>
+      <div v-for="index in 24" :key="index" class="card">
+        <div class="card-image">
+          <div class="card-face front">
+            <LoadingView class="image-card" />
           </div>
         </div>
       </div>
     </div>
-      <div class="card-info">
-        <p><span class="name">{{ item.name }}</span></p>
-        <div class="line"></div>
-        <p><span>Chương:</span> {{ item.chaptersLatest ? item.chaptersLatest[0].chapter_name : 'Đang cập nhật' }}</p>
-        <div class="line"></div>
-        <p><span>Thể loại:</span> {{ item?.category.map((i) => i.name).join(', ') }}</p>
+    <div class="cards" v-else>
+      <div v-for="(item, index) in data?.data.items" :key="index" class="card">
+        <div class="card-image">
+          <div class="card-face front">
+            <div v-if="!loadedImages[index]"><LoadingView /></div>
+            <img
+              v-show="loadedImages[index]"
+              :src="`https://otruyen.cc/_next/image?url=https://img.otruyenapi.com/uploads/comics/${item.thumb_url}&w=1200&q=100`"
+              alt="image"
+              class="img-card"
+              @load="onImageLoad(index)"
+            />
+          </div>
+
+          <div class="card-face back">
+            <img
+              :src="`https://otruyen.cc/_next/image?url=https://img.otruyenapi.com/uploads/comics/${item.thumb_url}&w=1200&q=100`"
+              alt="image"
+              class="img-card rotate-y-180"
+            />
+            <div class="card-overlay">
+              <div class="card-info">
+                <div class="card-buttons">
+                  <a :href="`/doc/${item.slug}/chuong/1`" class="card-button button-read">Đọc truyện</a>
+                  <a :href="'/chi-tiet/' + item.slug" class="card-button button-info">Xem thông tin</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-info">
+          <p>
+            <span class="name">{{ item.name }}</span>
+          </p>
+          <div class="line"></div>
+          <p>
+            <span>Chương:</span>
+            {{ item.chaptersLatest ? item.chaptersLatest[0].chapter_name : 'Đang cập nhật' }}
+          </p>
+          <div class="line"></div>
+          <p><span>Thể loại:</span> {{ item?.category.map((i) => i.name).join(', ') }}</p>
+        </div>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
@@ -98,7 +105,6 @@ watch(() => props.data?.data.items, (newItems) => {
   perspective: 1000px;
   display: flex;
   gap: 10px;
-  cursor: pointer;
   transition: 0.3s;
 }
 
@@ -168,21 +174,14 @@ watch(() => props.data?.data.items, (newItems) => {
   width: 100%;
   box-sizing: border-box;
   font-weight: 500;
-  font-size: 12px;
-  padding: 10px 10px;
+  font-size: 11px;
+  padding: 10px 3px;
   border-radius: 4px;
   text-align: center;
 }
 
-.card-buttons .card-button:first-child {
-  background: #ffd702;
-  color: #111;
-}
-
 .card-buttons .card-button:nth-child(2) {
   margin-top: 5px;
-  background: #fff;
-  color: #111;
 }
 
 .card-overlay {
@@ -214,5 +213,4 @@ watch(() => props.data?.data.items, (newItems) => {
 .card:hover .card-image {
   transform: rotateY(180deg);
 }
-
 </style>

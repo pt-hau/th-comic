@@ -102,7 +102,7 @@ defineProps<{
 }
 
 .action {
-  width: 100px;
+  width: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -115,7 +115,7 @@ defineProps<{
   gap: 2px;
   width: 22px;
   position: relative;
-  padding-bottom: 10px;
+  padding-bottom: 5px;
   transition: 0.3s;
   cursor: pointer;
 }
@@ -148,5 +148,33 @@ defineProps<{
 
 .action-span.active span {
   background-color: var(--title-color);
+}
+
+@media (max-width: 768px) {
+.icon {
+  font-size: 22px;
+}
+
+.text {
+  font-size: 16px;
+}
+
+.page span {
+  font-size: 16px;
+}
+}
+
+@media (max-width: 640px) {
+.icon {
+  width: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text {
+  display: none;
+}
+
 }
 </style>

@@ -44,7 +44,7 @@ const handleLoadImage = () => {
             </div>
           </div>
           <div class="info-col">
-            <a :href="`/doc/${data?.slug}/chuong/1`" class="read">Đọc truyện</a>
+            <a :href="`/doc/${data?.slug}/chuong/1`" class="read button-read">Đọc truyện</a>
           </div>
           <p class="description" v-html="data?.content"></p>
         </div>
@@ -70,13 +70,16 @@ const handleLoadImage = () => {
 .image {
   min-width: 220px;
   max-width: 220px;
+  height: max-content;
   border-radius: 10px;
   border: 3px solid white;
   overflow: hidden;
+  aspect-ratio: 3/4;
 }
 
 .image .img-card {
   aspect-ratio: 3/4;
+  height: auto;
 }
 
 .info {
@@ -124,13 +127,12 @@ const handleLoadImage = () => {
 .category {
   display: flex;
   flex-wrap: wrap;
+  gap: 5px;
 }
 
 .category span {
-  margin: 0 3px 0px 0;
   border: 1px solid var(--text-color-2);
   padding: 0.2rem 0.4rem;
-  line-height: 1;
   font-size: 12px;
   border-radius: 0.2rem;
 }
@@ -147,17 +149,40 @@ const handleLoadImage = () => {
   padding: 10px 20px;
   font-size: 16px;
   font-weight: 600;
-  background: var(--title-color);
-  color: white;
   border-radius: 4px;
 }
 
-/* @keyframes rotate360 {
-  0% {
-    transform: rotateY(0deg);
+@media (max-width: 768px) {
+  .banner-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
   }
-  100% {
-    transform: rotateY(360deg);
+
+  .name {
+    font-size: 26px;
   }
-} */
+
+  .title {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .banner-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .name {
+    font-size: 22px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+}
 </style>

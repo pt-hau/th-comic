@@ -32,14 +32,14 @@ const onImageLoad = () => {
         />
         <div class="card-overlay">
           <div class="card-info">
-            <p>
+            <!-- <p>
               <span>Chương:</span>
               {{ item.chaptersLatest ? item.chaptersLatest[0].chapter_name : 'Đang cập nhật' }}
             </p>
-            <p><span>Thể loại:</span> {{ item.category.map((c) => c.name).join(', ') }}</p>
+            <p><span>Thể loại:</span> {{ item.category.map((c) => c.name).join(', ') }}</p> -->
             <div class="card-buttons">
-              <a :href="`/doc/${item.slug}/chuong/1`" class="card-button">Đọc truyện</a>
-              <a :href="'/chi-tiet/' + item.slug" class="card-button">Xem thông tin</a>
+              <a :href="`/doc/${item.slug}/chuong/1`" class="card-button button-read">Đọc truyện</a>
+              <a :href="'/chi-tiet/' + item.slug" class="card-button button-info">Xem thông tin</a>
             </div>
           </div>
         </div>
@@ -87,17 +87,17 @@ const onImageLoad = () => {
 }
 
 .card-info p:first-child {
-  font-size: 14px;
+  font-size: 12px;
   -webkit-line-clamp: 1;
   line-clamp: 1;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .card-info p:nth-child(2) {
   font-size: 14px;
   margin-bottom: 10px;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
 }
 
 .card-info p span {
@@ -115,21 +115,14 @@ const onImageLoad = () => {
   width: 100%;
   box-sizing: border-box;
   font-weight: 500;
-  font-size: 14px;
-  padding: 8px 20px;
+  font-size: 12px;
+  padding: 10px 5px;
   border-radius: 4px;
   text-align: center;
 }
 
-.card-buttons .card-button:first-child {
-  background: #ffd702;
-  color: #111;
-}
-
 .card-buttons .card-button:nth-child(2) {
   margin-top: 5px;
-  background: #fff;
-  color: #111;
 }
 
 .card-overlay {
@@ -162,4 +155,5 @@ const onImageLoad = () => {
 .card-container:hover .card {
   transform: rotateY(180deg);
 }
+
 </style>

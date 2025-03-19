@@ -1,19 +1,22 @@
 <script setup lang="ts">
 import type { IChapter } from '@/interfaces/detailInterface'
 import router from '@/router'
-import { ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import IconSearch from '../icons/IconSearch.vue'
 
 const props = defineProps<{
   id: string
   slug: string
+  isShowMenu: boolean
   name: string | null | undefined
   data: IChapter[] | null | undefined
   isVertical: boolean
   handleChangeVertical: (value: boolean) => void
+  handleIsShowMenu: (value: boolean) => void
 }>()
 
 const searchQuery = ref('')
+const menuRef = ref<HTMLElement | null>(null)
 
 const handleSearch = () => {
   const chapterId = document.getElementById(searchQuery.value)
@@ -21,11 +24,27 @@ const handleSearch = () => {
     chapterId.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 }
+
+const handleClickOutside = (event: MouseEvent) => {
+  
+  if (menuRef.value && !menuRef.value.contains(event.target as Node) &&props.isShowMenu == true) {
+    props.handleIsShowMenu(false)
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 </script>
 
 <template>
-  <div class="menu">
-    <div class="header-logo" @click="router.push('/')">
+  <div :class="`menu ${isShowMenu ? 'show' : ''}`" ref="menuRef">
+    <div class="menu-content">
+      <div class="header-logo" @click="router.push('/')">
       <img alt="Vue logo" class="logo" src="@/assets/logo.png" width="70" />
       <span>Manga</span>
     </div>
@@ -70,11 +89,21 @@ const handleSearch = () => {
       </div>
       <div class="chapters-line"></div>
     </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .menu {
+  width: max-content;
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-color);
+}
+
+.menu-content {
   width: 250px;
   min-width: 250px;
   height: 100vh;
@@ -82,6 +111,7 @@ const handleSearch = () => {
   padding: 20px;
   display: flex;
   flex-direction: column;
+  background-color: var(--bg-color);
 }
 
 .header-logo {
@@ -114,6 +144,7 @@ const handleSearch = () => {
 .name p {
   font-weight: 600;
   font-size: 16px;
+  min-width: 10px;
   color: var(--title-color);
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -121,7 +152,7 @@ const handleSearch = () => {
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
   line-clamp: 2;
-  line-height: 1.1em;
+  line-height: 1.3em;
 }
 
 .name p:nth-child(2):hover {
@@ -226,8 +257,8 @@ const handleSearch = () => {
 
 .chapter-item:hover,
 .chapter-item.isSearch {
-  color: #3c8bc6;
   background-color: #ffffff;
+  color: #3c8bc6;
 }
 
 .chapter-item:hover::before,
@@ -278,5 +309,22 @@ const handleSearch = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@media (max-width: 1024px) {
+  .menu {
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    transition: 0.3s;
+    width: 0;
+    z-index: 50;
+  }
+
+  .menu.show {
+    width: 250px;
+  }
 }
 </style>

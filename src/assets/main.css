@@ -9,6 +9,7 @@
 
 .dark body {
   background-color: #111111;
+  --bg-color: #111111;
   --bg-banner: #1f1f1f;
   --bg-header:rgba(31, 31, 31, 0.712);
   --text-color-1: #FFFFFF;
@@ -19,6 +20,7 @@
 
 body {
   background-color: #F5F0E1;
+  --bg-color: #F5F0E1;
   --bg-banner: #e9dbc7;
   --bg-header: #e9dbc7bd;
   --text-color-1: #242323;
@@ -51,10 +53,36 @@ a,
   object-fit: cover;
 }
 
+.button-read {
+  background-color: goldenrod;
+  color: #111111;
+}
+
+.button-info {
+  background-color: rgb(252, 236, 236);
+  color: #111111;
+}
+
+.button-read:hover {
+  background-color: rgb(255, 248, 232);
+}
+
+.button-info:hover {
+  background-color: white;
+}
+
 .content {
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 2rem;
+}
+
+.title-content {
+  display: inline-block;
+  font-size: 32px;
+  font-weight: 700;
+  position: relative;
+  color: var(--title-color);
 }
 
 .swiper-buttons {
@@ -127,5 +155,20 @@ a,
   opacity: 1;
 }
 
-@media (hover: hover) {
+@media (max-width: 768px) {
+  .content {
+    padding: 0 1rem;
+  }
+  .title-content {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 640px) {
+  .content {
+    padding: 0 1rem;
+  }
+  .title-content {
+    font-size: 24px;
+  }
 }

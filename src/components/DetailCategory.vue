@@ -23,7 +23,7 @@ onMounted(() => {
 <template>
   <div class="category">
     <div class="category-content">
-      <p class="title">Thể loại</p>
+      <p class="title-content">Thể loại</p>
       <div class="title-line"></div>
       <div class="category-items" v-if="categories && categories?.length > 0">
         <div

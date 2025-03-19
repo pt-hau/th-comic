@@ -182,16 +182,4 @@ const handleSearch = () => {
   justify-content: center;
   align-items: center;
 }
-
-/* .indicator {
-  position: absolute;
-  left: 0;
-  background-color: #3c8bc6;
-  width: 4px;
-  transition:
-    top 0.3s,
-    height 0.3s,
-    opacity 0.3s;
-  opacity: 0;
-} */
 </style>

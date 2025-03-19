@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import HomeBanner from '@/components/home/HomeBanner.vue';
-import HomeComplete from '@/components/home/HomeComplete.vue';
-import HomeIsReleasing from '@/components/home/HomeIsReleasing.vue';
+import HomeList from '@/components/home/HomeList.vue';
 import HomeNew from '@/components/home/HomeNew.vue';
 import IconLineBg from '@/components/icons/IconLineBg.vue';
 import { type } from '@/constants/defaultData';
@@ -48,8 +47,8 @@ onMounted(() => {
           <HomeBanner :data="dataBanner"/>
           <HomeNew :data="dataNew"/>
           <IconLineBg />
-          <HomeIsReleasing :data="dataIsReleasing" />
-          <HomeComplete :data="dataComplete" />
+          <HomeList name="Đang phát hành" :data="dataIsReleasing" />
+          <HomeList name="Hoàn thành" :data="dataComplete" />
         </div>
     </div>
   </main>

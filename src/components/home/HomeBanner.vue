@@ -110,8 +110,8 @@ onBeforeUnmount(() => {
               }}</span>
             </div>
             <div class="banner-buttons">
-              <a :href="`/doc/${item.slug}/chuong/1`" class="banner-button">Đọc truyện</a>
-              <a :href="'/chi-tiet/' + item.slug" class="banner-button">Xem thông tin</a>
+              <a :href="`/doc/${item.slug}/chuong/1`" class="banner-button button-read">Đọc truyện</a>
+              <a :href="'/chi-tiet/' + item.slug" class="banner-button button-info">Xem thông tin</a>
             </div>
           </div>
         </div>
@@ -248,16 +248,6 @@ onBeforeUnmount(() => {
   padding: 8px 20px;
   border-radius: 4px;
   margin-right: 10px;
-}
-
-.banner-buttons .banner-button:first-child {
-  background: #ffd702;
-  color: #111;
-}
-
-.banner-buttons .banner-button:nth-child(2) {
-  background: #fff;
-  color: #111;
 }
 
 .banner-poster {
