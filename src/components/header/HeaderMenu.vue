@@ -43,8 +43,9 @@ onUnmounted(() => {
         show: showMenu
       }
     ]"
+    ref="menuRef"
   >
-    <div class="header-menu-content" ref="menuRef">
+    <div class="header-menu-content">
         <nav class="header-menu-nav">
           <RouterLink to="/truyen-moi">Truyện mới</RouterLink>
           <RouterLink to="/dang-phat-hanh">Đang phát hành</RouterLink>
@@ -75,6 +76,7 @@ onUnmounted(() => {
   top: 0;
   left: 0;
   bottom: 0;
+  width: 0px;
   height: 100dvh;
   z-index: 40;
   padding-top: 50px;
@@ -83,14 +85,15 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  transition: 0.3s;
 }
 
 .header-menu-content {
-  width: 0px;
   height: 100%;
   flex-grow: 1;
+  min-width: 300px;
   background-color: var(--bg-banner);
-  transition: 0.5s;
   flex-grow: 1;
     display: flex;
   flex-direction: column;
@@ -100,7 +103,7 @@ onUnmounted(() => {
 .header-menu-nav {
   display: flex;
   flex-direction: column;
-  min-width: 300px;
+  width: 100%;
   position: relative;
 }
 
@@ -187,7 +190,7 @@ onUnmounted(() => {
     visibility: initial;
   }
 
-  .header-menu.show .header-menu-content {
+  .header-menu.show {
     width: 300px;
   }
 }
