@@ -10,8 +10,9 @@ import IconMenu from '../icons/IconMenu.vue'
 let hoverTimeout: ReturnType<typeof setTimeout>
 const isOpen = ref(false)
 const route = useRoute()
+const showMenu = inject('showMenu')
 const categories = ref<IResponseDataCategory[] | null>(null)
-const toggleMenu = inject('toggleMenu') as () => void
+const toggleMenu = inject('toggleMenu') as (value: boolean) => void
 
 const fetchCategories = async () => {
   const result = await ListService.getCategories()
@@ -44,7 +45,7 @@ onMounted(() => {
 <template>
   <header>
     <div class="header-content">
-      <div class="icon-menu" @click.stop="toggleMenu">
+      <div class="icon-menu" @click.stop="() => toggleMenu(!showMenu)">
         <IconMenu />
       </div>
       <div class="header-logo" @click="router.push('/')">

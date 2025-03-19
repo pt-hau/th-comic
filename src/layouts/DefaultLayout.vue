@@ -9,8 +9,8 @@ const showSearch = ref(false)
 const showMenu = ref(false)
 const route = useRoute()
 
-const toggleMenu = () => {
-  showMenu.value = !showMenu.value
+const toggleMenu = (value: boolean) => {
+  showMenu.value = value
 }
 provide('showSearch', showSearch)
 provide('showMenu', showMenu)

@@ -8,7 +8,7 @@ const isOpen = ref(false)
 const route = useRoute()
 const categories = ref<IResponseDataCategory[] | null>(null)
 const showMenu = inject('showMenu')
-const toggleMenu = inject('toggleMenu') as () => void
+const toggleMenu = inject('toggleMenu') as (value: boolean) => void
 const menuRef = ref<HTMLElement | null>(null)
 const fetchCategories = async () => {
   const result = await ListService.getCategories()
@@ -21,7 +21,7 @@ const openDropdown = () => {
 
 const handleClickOutside = (event: MouseEvent) => {
   if(menuRef.value && !menuRef.value.contains(event.target as Node)) {
-    toggleMenu()
+    toggleMenu(false)
   }
 }
 
@@ -75,7 +75,7 @@ onUnmounted(() => {
   top: 0;
   left: 0;
   bottom: 0;
-  height: 100vh;
+  height: 100%;
   z-index: 40;
   padding-top: 50px;
   box-sizing: border-box;
