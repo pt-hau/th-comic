@@ -146,6 +146,29 @@ const handleResize = () => {
   }
 }
 
+const handleTouchStart = (event: TouchEvent) => {
+  isDragging.value = true
+  const touch = event.touches[0]
+  offset.value = {
+    x: touch.clientX - menuPosition.value.left,
+    y: touch.clientY - menuPosition.value.top
+  }
+}
+
+const handleTouchMove = (event: TouchEvent) => {
+  if (isDragging.value && parentRef.value) {
+    const touch = event.touches[0]
+    const parentRect = parentRef.value.getBoundingClientRect()
+    const newLeft = touch.clientX - offset.value.x
+    const newTop = touch.clientY - offset.value.y
+
+    menuPosition.value = {
+      left: Math.min(Math.max(0, newLeft), parentRect.width - 40),
+      top: Math.min(Math.max(0, newTop), parentRect.height - 40),
+    }
+  }
+}
+
 onMounted(() => {
   if (parentRef.value) {
     const parentRect = parentRef.value.getBoundingClientRect()
@@ -155,12 +178,16 @@ onMounted(() => {
 
   document.addEventListener('mousemove', handleMouseMove)
   document.addEventListener('mouseup', handleMouseUp)
+  document.addEventListener('touchmove', handleTouchMove)
+  document.addEventListener('touchend', handleMouseUp)
   window.addEventListener('resize', handleResize)
 })
 
 onUnmounted(() => {
   document.removeEventListener('mousemove', handleMouseMove)
   document.removeEventListener('mouseup', handleMouseUp)
+  document.removeEventListener('touchmove', handleTouchMove)
+  document.removeEventListener('touchend', handleMouseUp)
   window.removeEventListener('resize', handleResize)
 })
 </script>
@@ -205,6 +232,7 @@ onUnmounted(() => {
     <div
       class="show-menu"
       @mousedown="handleMouseDown"
+      @touchstart="handleTouchStart"
       :style="{ top: menuPosition.top + 'px', left: menuPosition.left + 'px' }"
       @click.stop="handleIsShowMenu(!isShowMenu)"
     >
