@@ -2,7 +2,7 @@
 import type { IChapter } from '@/interfaces/detailInterface'
 import router from '@/router'
 import { ref } from 'vue'
-import IconSearch from '../icons/IconSearch.vue';
+import IconSearch from '../icons/IconSearch.vue'
 
 defineProps<{
   slug: string
@@ -12,17 +12,19 @@ defineProps<{
 const searchQuery = ref('')
 
 const handleSearch = () => {
-  const chapterContainer = document.querySelector('.chapter-items') as HTMLElement | null;
-  if (!chapterContainer) return;
+  const chapterContainer = document.querySelector('.chapter-items') as HTMLElement | null
+  if (!chapterContainer) return
 
-  const chapterItems = Array.from(chapterContainer.querySelectorAll('.chapter-item')) as HTMLElement[];
-  const targetItem = chapterItems.find(item => item.id.includes(searchQuery.value.trim()));
+  const chapterItems = Array.from(
+    chapterContainer.querySelectorAll('.chapter-item')
+  ) as HTMLElement[]
+  const targetItem = chapterItems.find((item) => item.id.includes(searchQuery.value.trim()))
 
   if (targetItem) {
     chapterContainer.scrollTo({
       top: targetItem.offsetTop,
       behavior: 'smooth'
-    });
+    })
   }
 }
 </script>
@@ -45,7 +47,7 @@ const handleSearch = () => {
         <div class="chapter-items">
           <div
             :id="item.chapter_name"
-            :class="`chapter-item ${searchQuery === item.chapter_name ? 'isSearch' : '' }`"
+            :class="`chapter-item ${searchQuery === item.chapter_name ? 'isSearch' : ''}`"
             v-for="(item, index) in data[0].server_data"
             :key="index"
             @click="() => router.push('/doc/' + slug + '/chuong/' + item.chapter_name)"
@@ -56,13 +58,7 @@ const handleSearch = () => {
       </div>
       <div v-else>
         <div class="chapter-items">
-          <div
-            :id="index.toString"
-            :class="`chapter-item`"
-            v-for="index in 20"
-            :key="index"
-          >
-          </div>
+          <div class="chapter-item-null">Dữ liệu đang được cập nhật!</div>
         </div>
       </div>
     </div>
@@ -116,6 +112,15 @@ const handleSearch = () => {
   transition: 0.3s;
 }
 
+.chapter-item-null {
+  padding: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 1px;
+  background-color: var(--bg-banner);
+  color: var(--text-color-1);
+}
+
 .chapter-item::before {
   content: '';
   position: absolute;
@@ -129,12 +134,14 @@ const handleSearch = () => {
   transition: transform 0.3s;
 }
 
-.chapter-item:hover, .chapter-item.isSearch {
+.chapter-item:hover,
+.chapter-item.isSearch {
   color: #3c8bc6;
   background-color: #ffffff;
 }
 
-.chapter-item:hover::before, .chapter-item.isSearch::before {
+.chapter-item:hover::before,
+.chapter-item.isSearch::before {
   transform: scaleY(1);
 }
 

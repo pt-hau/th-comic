@@ -26,7 +26,7 @@ defineProps<{
           :class="`action-span tooltip-container ${!isTwoPage ? 'active' : ''}`"
           @click="() => handleChangeIsTwoPage(false)"
         >
-        <div class="tooltip-text tooltip-text-center">Hiển thị một trang</div>
+        <div class="tooltip-text">Hiển thị một trang</div>
           <span></span>
         </div>
       </div>

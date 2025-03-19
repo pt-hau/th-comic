@@ -86,6 +86,13 @@ onUnmounted(() => {
             <p>Chương {{ item?.chapter_name }}: {{ item?.filename }}</p>
           </div>
         </div>
+        <div v-else>
+          <div
+            class="chapter-item-null"
+          >
+            <p>Dữ liệu đang được cập nhật!</p>
+          </div>
+        </div>
       </div>
       <div class="chapters-line"></div>
     </div>
@@ -229,6 +236,15 @@ onUnmounted(() => {
   cursor: pointer;
   position: relative;
   transition: 0.3s;
+}
+
+.chapter-item-null {
+  padding: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 1px;
+  background-color: var(--bg-banner);
+  color: var(--text-color-1);
 }
 
 .chapter-item p {

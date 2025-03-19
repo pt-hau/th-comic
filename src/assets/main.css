@@ -176,6 +176,12 @@ a,
   background: #77777749;
 }
 
+@media (max-width: 1024px) {
+  .tooltip-text {
+    left: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .content {
     padding: 0 1rem;

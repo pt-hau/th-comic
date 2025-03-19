@@ -26,8 +26,8 @@ const isDarkMode = inject('isDarkMode')
 }
 
 .box-img {
-  height: 30%;
   max-height: 30%;
+  max-width: 40%;
   aspect-ratio: 3/4;
   perspective: 1000px;
 }
