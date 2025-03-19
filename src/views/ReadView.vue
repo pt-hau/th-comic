@@ -254,7 +254,7 @@ onUnmounted(() => {
 
 .read-content {
   width: 100%;
-  height: 100%;
+  height: 100dvh;
   position: relative;
   display: flex;
   position: relative;
@@ -264,7 +264,7 @@ onUnmounted(() => {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
 }
 
 .show-menu {

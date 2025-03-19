@@ -35,7 +35,6 @@ body {
   display: flex;
   place-items: center;
   -webkit-tap-highlight-color: transparent;
-  touch-action: none;
 }
 
 a,
