@@ -313,7 +313,7 @@ onUnmounted(() => {
 
 @media (max-width: 1024px) {
   .menu {
-    position: absolute;
+    position: fixed;
     overflow: hidden;
     top: 0;
     left: 0;

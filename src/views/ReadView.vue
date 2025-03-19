@@ -234,7 +234,7 @@ onUnmounted(() => {
 
 .read-content {
   width: 100%;
-  height: 100%;
+  height: 100dvh;
   position: relative;
   display: flex;
   position: relative;
