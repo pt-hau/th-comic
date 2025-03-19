@@ -109,31 +109,24 @@ const handleUpdatePage = (newPage: number) => {
 }
 
 //icon menu
-const handleMouseDown = (event: MouseEvent | TouchEvent) => {
+const handleMouseDown = (event: MouseEvent) => {
   isDragging.value = true
-  const clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX
-  const clientY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY
-
   offset.value = {
-    x: clientX - menuPosition.value.left,
-    y: clientY - menuPosition.value.top
+    x: event.clientX - menuPosition.value.left,
+    y: event.clientY - menuPosition.value.top
   }
 }
 
-const handleMouseMove = (event: MouseEvent | TouchEvent) => {
-  if (!isDragging.value || !parentRef.value) return
-  event.preventDefault()
+const handleMouseMove = (event: MouseEvent) => {
+  if (isDragging.value && parentRef.value) {
+    const parentRect = parentRef.value.getBoundingClientRect()
+    const newLeft = event.clientX - offset.value.x
+    const newTop = event.clientY - offset.value.y
 
-  const clientX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX
-  const clientY = event instanceof MouseEvent ? event.clientY : event.touches[0].clientY
-
-  const parentRect = parentRef.value.getBoundingClientRect()
-  const newLeft = clientX - offset.value.x
-  const newTop = clientY - offset.value.y
-
-  menuPosition.value = {
-    left: Math.min(Math.max(0, newLeft), parentRect.width - 40),
-    top: Math.min(Math.max(0, newTop), parentRect.height - 40)
+    menuPosition.value = {
+      left: Math.min(Math.max(0, newLeft), parentRect.width - 40),
+      top: Math.min(Math.max(0, newTop), parentRect.height - 40),
+    }
   }
 }
 
@@ -142,19 +135,50 @@ const handleMouseUp = () => {
 }
 
 const handleResize = () => {
-  if (!parentRef.value) return
-  const parentRect = parentRef.value.getBoundingClientRect()
-  menuPosition.value.left = Math.min(menuPosition.value.left, parentRect.width - 40)
-  menuPosition.value.top = Math.min(menuPosition.value.top, parentRect.height - 40)
+  if (parentRef.value) {
+    const parentRect = parentRef.value.getBoundingClientRect()
+    if (menuPosition.value.left > parentRect.width - 60) {
+      menuPosition.value.left = parentRect.width - 60
+    }
+    if (menuPosition.value.top > parentRect.height - 40) {
+      menuPosition.value.top = parentRect.height - 40
+    }
+  }
+}
+
+const handleTouchStart = (event: TouchEvent) => {
+  isDragging.value = true
+  const touch = event.touches[0]
+  offset.value = {
+    x: touch.clientX - menuPosition.value.left,
+    y: touch.clientY - menuPosition.value.top
+  }
+}
+
+const handleTouchMove = (event: TouchEvent) => {
+  if (isDragging.value && parentRef.value) {
+    const touch = event.touches[0]
+    const parentRect = parentRef.value.getBoundingClientRect()
+    const newLeft = touch.clientX - offset.value.x
+    const newTop = touch.clientY - offset.value.y
+
+    menuPosition.value = {
+      left: Math.min(Math.max(0, newLeft), parentRect.width - 40),
+      top: Math.min(Math.max(0, newTop), parentRect.height - 40),
+    }
+  }
 }
 
 onMounted(() => {
   if (parentRef.value) {
     const parentRect = parentRef.value.getBoundingClientRect()
     menuPosition.value.left = parentRect.width - 60
+    menuPosition.value.top = 20
   }
+
   document.addEventListener('mousemove', handleMouseMove)
   document.addEventListener('mouseup', handleMouseUp)
+  document.addEventListener('touchmove', handleTouchMove)
   document.addEventListener('touchend', handleMouseUp)
   window.addEventListener('resize', handleResize)
 })
@@ -162,7 +186,6 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('mousemove', handleMouseMove)
   document.removeEventListener('mouseup', handleMouseUp)
-  document.removeEventListener('touchend', handleMouseUp)
   window.removeEventListener('resize', handleResize)
 })
 </script>
@@ -207,10 +230,9 @@ onUnmounted(() => {
     <div
       class="show-menu"
       @mousedown="handleMouseDown"
-      @touchstart="handleMouseDown"
+      @touchstart="handleTouchStart"
       :style="{ top: menuPosition.top + 'px', left: menuPosition.left + 'px' }"
       @click.stop="handleIsShowMenu(!isShowMenu)"
-      touch-action="none"
     >
       <IconMenu />
     </div>
@@ -225,14 +247,14 @@ onUnmounted(() => {
 
 .load {
   width: 100vw;
-  height: 100%;
+  height: 100dvh;
   position: fixed;
   z-index: 100;
 }
 
 .read-content {
   width: 100%;
-  height: 100dvh;
+  height: 100%;
   position: relative;
   display: flex;
   position: relative;
@@ -242,7 +264,7 @@ onUnmounted(() => {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100vh;
 }
 
 .show-menu {
