@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import router from '@/router'
-import { inject, onMounted, ref } from 'vue'
+import { inject, onMounted, onUnmounted, ref } from 'vue'
 import { ListService } from '@/services/listService'
 import { useRoute } from 'vue-router'
 
@@ -9,7 +9,7 @@ const route = useRoute()
 const categories = ref<IResponseDataCategory[] | null>(null)
 const showMenu = inject('showMenu')
 const toggleMenu = inject('toggleMenu') as () => void
-
+const menuRef = ref<HTMLElement | null>(null)
 const fetchCategories = async () => {
   const result = await ListService.getCategories()
   categories.value = result.data.data.items
@@ -19,8 +19,19 @@ const openDropdown = () => {
   isOpen.value = !isOpen.value
 }
 
+const handleClickOutside = (event: MouseEvent) => {
+  if(menuRef.value && !menuRef.value.contains(event.target as Node)) {
+    toggleMenu()
+  }
+}
+
 onMounted(() => {
   fetchCategories()
+  window.addEventListener('click', handleClickOutside)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('click', handleClickOutside)
 })
 </script>
 
@@ -32,9 +43,8 @@ onMounted(() => {
         show: showMenu
       }
     ]"
-    @click="toggleMenu"
   >
-    <div class="header-menu-content" @click.stop>
+    <div class="header-menu-content" ref="menuRef">
         <nav class="header-menu-nav">
           <RouterLink to="/truyen-moi">Truyện mới</RouterLink>
           <RouterLink to="/dang-phat-hanh">Đang phát hành</RouterLink>
@@ -64,15 +74,15 @@ onMounted(() => {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
+  bottom: 0;
   height: 100vh;
-  background-color: #0000008a;
   z-index: 40;
   padding-top: 50px;
   box-sizing: border-box;
   visibility: hidden;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
 }
 
 .header-menu-content {

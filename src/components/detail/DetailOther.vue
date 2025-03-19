@@ -57,7 +57,7 @@ const props = defineProps<{ data: IDataItem[] }>()
   margin-top: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 20px;
+  gap: 15px;
   width: 100%;
 }
 

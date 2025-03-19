@@ -75,6 +75,7 @@ const handleLoadImage = () => {
   border: 3px solid white;
   overflow: hidden;
   aspect-ratio: 3/4;
+  box-shadow: 0 0 20px var(--shadow);
 }
 
 .image .img-card {

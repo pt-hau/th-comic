@@ -39,12 +39,14 @@ onUnmounted(() => {
         </template>
         <template #item="{ item, index }">
           <div class="new-item">
-            <div class="item-right">
+            <div class="new-item-content">
+              <div class="item-right">
               <CardRotateY :item="item" />
             </div>
             <div class="item-left">
               <span>{{ index + 1 < 10 ? '0' : '' }}{{ index + 1 }}</span>
               <span>{{ item.name }}</span>
+            </div>
             </div>
           </div>
         </template>
@@ -68,6 +70,14 @@ onUnmounted(() => {
   position: relative;
   width: 100%;
   aspect-ratio: 1;
+  box-sizing: border-box;
+  padding-right: 10px;
+}
+
+.new-item-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .new-item .item-left {
@@ -108,6 +118,5 @@ onUnmounted(() => {
   right: 0;
   height: 100%;
   border-radius: 10px;
-  overflow: hidden;
 }
 </style>

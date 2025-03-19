@@ -18,6 +18,7 @@ footer {
   justify-content: center;
   align-items: center;
   background-color: var(--bg-banner);
+  box-shadow: 0 0 20px var(--shadow);
 }
 
 footer span {

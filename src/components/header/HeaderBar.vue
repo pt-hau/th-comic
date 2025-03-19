@@ -44,7 +44,7 @@ onMounted(() => {
 <template>
   <header>
     <div class="header-content">
-      <div class="icon-menu" @click="toggleMenu">
+      <div class="icon-menu" @click.stop="toggleMenu">
         <IconMenu />
       </div>
       <div class="header-logo" @click="router.push('/')">
@@ -100,9 +100,10 @@ header {
   width: 100%;
   height: 50px;
   backdrop-filter: blur(5px);
-  border-bottom: 1px solid #4d4c4c;
+  border-bottom: 1px solid;
   background-color: var(--bg-header);
   z-index: 50;
+  box-shadow: 0 0 20px var(--shadow);
 }
 
 .header-content {

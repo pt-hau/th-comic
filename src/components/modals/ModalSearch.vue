@@ -1,23 +1,39 @@
 <script setup lang="ts">
-import { inject, ref, watch, type Ref } from 'vue'
+import { inject, onMounted, ref, watch, type Ref } from 'vue'
 import IconSearch from '../icons/IconSearch.vue'
 import { ListService } from '@/services/listService'
 import { useRouter } from 'vue-router'
+import LoadingView from '../LoadingView.vue'
 
 const showSearch = inject('showSearch') as Ref<boolean>
 const dataSearch = ref<IResponseDataStatus>()
 const router = useRouter()
 const fetchDataSearch = async (keyword: string) => {
+  isNull.value = false
   const result = await ListService.getSearch(keyword)
   if (result) dataSearch.value = result.data
+  if(result.data.data.items.length == 0) {
+    isNull.value = true
+  }
 }
 const closeModal = () => {
   if (showSearch) showSearch.value = false
 }
 
+const isNull = ref(false)
 const searchQuery = ref('')
 const searchHistory = ref<string[]>(JSON.parse(localStorage.getItem('searchHistory') || '[]'))
 
+const handleReSearch = (index: number) => {
+  const keyword = searchHistory.value[index]
+
+  searchHistory.value.splice(index, 1)
+  searchHistory.value.unshift(keyword)
+
+  localStorage.setItem('searchHistory', JSON.stringify(searchHistory.value))
+
+  fetchDataSearch(keyword)
+}
 const handleSearch = () => {
   if (searchQuery.value.trim() === '') return
 
@@ -48,13 +64,33 @@ watch(showSearch, (newVal) => {
     document.body.style.overflow = ''
   }
 })
+
+//load img
+const loadedImages = ref<boolean[]>([])
+
+onMounted(() => {
+  if (dataSearch.value?.data.items) {
+    loadedImages.value = dataSearch.value?.data.items.map(() => false)
+  }
+})
+
+const onImageLoad = (index: number) => {
+  loadedImages.value[index] = true
+}
+
+watch(
+  () => dataSearch.value?.data.items,
+  (newItems) => {
+    if (newItems) {
+      loadedImages.value = newItems.map(() => false)
+    }
+  }
+)
 </script>
 
 <template>
-  <!-- Nền mờ -->
   <transition name="fade">
     <div v-show="showSearch" class="modal-search" @click.self="closeModal">
-      <!-- Nội dung modal -->
       <transition name="slide-up">
         <div v-show="showSearch" class="modal-search-content">
           <div @click="closeModal" class="close button">Đóng</div>
@@ -69,10 +105,11 @@ watch(showSearch, (newVal) => {
           </div>
           <div v-if="searchHistory.length" class="search-history">
             <div v-for="(keyword, index) in searchHistory" :key="index" class="history-item">
-              <span> {{ keyword }}</span>
+              <span @click="() => handleReSearch(index)"> {{ keyword }}</span>
               <button class="button" @click="removeKeyword(index)">X</button>
             </div>
           </div>
+          <p class="null" v-show="isNull">Không tìm thấy kết quả!</p>
           <div class="cards">
             <div
               v-for="(item, index) in dataSearch?.data.items"
@@ -82,10 +119,13 @@ watch(showSearch, (newVal) => {
             >
               <div class="card-image">
                 <div class="card-face">
+                  <div v-if="!loadedImages[index]"><LoadingView /></div>
                   <img
+                    v-show="loadedImages[index]"
                     :src="`https://otruyen.cc/_next/image?url=https://img.otruyenapi.com/uploads/comics/${item.thumb_url}&w=1200&q=100`"
                     alt="image"
                     class="img-card"
+                    @load="onImageLoad(index)"
                   />
                 </div>
               </div>
@@ -168,6 +208,9 @@ watch(showSearch, (newVal) => {
   flex-direction: column;
 }
 
+.null {
+  color: white;
+}
 .close {
   margin-left: auto;
   padding: 5px 10px;
@@ -255,6 +298,7 @@ watch(showSearch, (newVal) => {
   text-overflow: ellipsis;
   -webkit-line-clamp: 1;
   line-clamp: 1;
+  cursor: pointer;
 }
 
 .history-item button {
@@ -279,6 +323,7 @@ watch(showSearch, (newVal) => {
   gap: 10px;
   cursor: pointer;
   transition: 0.3s;
+  box-shadow: 0 0 5px var(--shadow);
 }
 
 .card:hover {

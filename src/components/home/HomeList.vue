@@ -72,6 +72,8 @@ onUnmounted(() => {
 .list-item {
   position: relative;
   width: 100%;
+  box-sizing: border-box;
+  padding: 0 10px;
 }
 
 .list-item .item-bottom {
@@ -108,7 +110,6 @@ onUnmounted(() => {
 .list-item .item-top {
   aspect-ratio: 3/4;
   border-radius: 10px;
-  overflow: hidden;
 }
 
 .loading-bottom {

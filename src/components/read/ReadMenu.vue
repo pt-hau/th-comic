@@ -27,7 +27,7 @@ const handleSearch = () => {
 
 const handleClickOutside = (event: MouseEvent) => {
   
-  if (menuRef.value && !menuRef.value.contains(event.target as Node) &&props.isShowMenu == true) {
+  if (menuRef.value && !menuRef.value.contains(event.target as Node) && props.isShowMenu == true && props.isShowMenu) {
     props.handleIsShowMenu(false)
   }
 }

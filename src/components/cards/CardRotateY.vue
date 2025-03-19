@@ -61,6 +61,8 @@ const onImageLoad = () => {
   height: 100%;
   transform-style: preserve-3d;
   transition: transform 0.5s;
+  border-radius: 10px;
+  box-shadow: 0 0 10px var(--shadow);
 }
 
 .card-info {

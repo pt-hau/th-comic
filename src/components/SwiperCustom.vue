@@ -26,7 +26,6 @@ const slidePrev = () => swiperRef.value?.slidePrev()
     </div>
     <swiper
       :slides-per-view="props.numberShow"
-      :space-between="10"
       :loop="true"
       :grab-cursor="true"
       @swiper="onSwiper"
