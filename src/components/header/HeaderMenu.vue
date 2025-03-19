@@ -19,19 +19,21 @@ const openDropdown = () => {
   isOpen.value = !isOpen.value
 }
 
-const handleClickOutside = (event: MouseEvent) => {
-  if(menuRef.value && !menuRef.value.contains(event.target as Node)) {
+const handleClickOutside = (event: MouseEvent | TouchEvent) => {
+  if (menuRef.value && !menuRef.value.contains(event.target as Node)) {
     toggleMenu(false)
   }
 }
 
 onMounted(() => {
   fetchCategories()
-  window.addEventListener('click', handleClickOutside)
+  window.addEventListener('mousedown', handleClickOutside)
+  window.addEventListener('touchstart', handleClickOutside)
 })
 
 onUnmounted(() => {
-  window.removeEventListener('click', handleClickOutside)
+  window.removeEventListener('mousedown', handleClickOutside)
+  window.removeEventListener('touchstart', handleClickOutside)
 })
 </script>
 
