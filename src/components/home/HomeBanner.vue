@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import LoadingView from '../LoadingView.vue'
 
 const props = defineProps<{
   data: IDataItem[]
 }>()
 const itemIndex = ref(0)
+const aaa = reactive({})
 const autoSlideInterval = ref<number | null>(null)
 const loadedImages = ref<boolean[]>([])
 
@@ -97,7 +98,7 @@ onBeforeUnmount(() => {
           </div>
           <div class="banner-info">
             <p>
-              Chương:
+              Chương:  {{ aaa }}
               {{ item.chaptersLatest ? item.chaptersLatest[0].chapter_name : 'Đang cập nhật' }}
             </p>
             <p>{{ item.name }}</p>
