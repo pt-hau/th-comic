@@ -212,6 +212,8 @@ onUnmounted(() => {
           :isVertical="isVertical"
           :data="detailDataRead"
           :isTwoPage="isTwoPage"
+          :handlePrev="handlePrev"
+          :handleNext="handleNext"
           :updatePage="handleUpdatePage"
         />
         <ReadMenuBottom

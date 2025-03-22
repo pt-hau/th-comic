@@ -9,6 +9,8 @@ const props = defineProps<{
   page: number
   isTwoPage: boolean
   data: IResponseDataRead | null
+  handlePrev: () => void
+  handleNext: () => void
   updatePage: (value: number) => void
 }>()
 
@@ -74,64 +76,53 @@ watch(
     scrollToCurrentPage()
   }
 )
+
+//chuyen trang 
+const handlePageClick = (event) => {
+  const rect = event.currentTarget.getBoundingClientRect();
+  const x = event.clientX - rect.left;
+  const width = rect.width;
+
+  if (x < width / 2) {
+    props.handlePrev()
+  }
+  else {
+    props.handleNext()
+  }
+};
 </script>
 
 <template>
   <div class="Read">
     <div v-show="isVertical" class="read-content vertical" @scroll="handleScroll">
-      <div
-        v-for="(item, index) in data?.data.item.chapter_image"
-        :key="index"
-        class="box-image"
-        :id="`image-${index + 1}`"
-      >
+      <div v-for="(item, index) in data?.data.item.chapter_image" :key="index" class="box-image"
+        :id="`image-${index + 1}`">
         <LoadingView v-if="!loadingStatus[index]" />
-        <img
-          v-show="loadingStatus[index]"
-          :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${item.image_file}`"
-          alt="image"
-          @load="handleImageLoad(index)"
-        />
+        <img v-show="loadingStatus[index]"
+          :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${item.image_file}`" alt="image"
+          @load="handleImageLoad(index)" />
       </div>
     </div>
 
     <div v-show="!isVertical" class="read-content horizontal">
-      <div :class="`box-image ${props.isTwoPage ? 'two-page' : ''}`">
+      <div :class="`box-image ${props.isTwoPage ? 'two-page' : ''}`" @click="handlePageClick">
         <template v-if="props.isTwoPage">
           <LoadingView v-if="!loadingStatus[props.page]" />
-          <img
-            v-show="loadingStatus[props.page]"
-            :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${
-              data?.data.item.chapter_image.find((item) => item.image_page === props.page)
-                ?.image_file
-            }`"
-            alt="image"
-            @load="handleImageLoad(props.page)"
-          />
+          <img v-show="loadingStatus[props.page]" :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${data?.data.item.chapter_image.find((item) => item.image_page === props.page)
+              ?.image_file
+            }`" alt="image" @load="handleImageLoad(props.page)" />
 
           <LoadingView v-if="!loadingStatus[props.page + 1]" />
-          <img
-            v-show="loadingStatus[props.page + 1]"
-            :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${
-              data?.data.item.chapter_image.find((item) => item.image_page === props.page + 1)
-                ?.image_file
-            }`"
-            alt="image"
-            @load="handleImageLoad(props.page + 1)"
-          />
+          <img v-show="loadingStatus[props.page + 1]" :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${data?.data.item.chapter_image.find((item) => item.image_page === props.page + 1)
+              ?.image_file
+            }`" alt="image" @load="handleImageLoad(props.page + 1)" />
         </template>
 
         <template v-else>
           <LoadingView v-if="!loadingStatus[props.page]" />
-          <img
-            v-show="loadingStatus[props.page]"
-            :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${
-              data?.data.item.chapter_image.find((item) => item.image_page === props.page)
-                ?.image_file
-            }`"
-            alt="image"
-            @load="handleImageLoad(props.page)"
-          />
+          <img v-show="loadingStatus[props.page]" :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${data?.data.item.chapter_image.find((item) => item.image_page === props.page)
+              ?.image_file
+            }`" alt="image" @load="handleImageLoad(props.page)" />
         </template>
       </div>
     </div>
