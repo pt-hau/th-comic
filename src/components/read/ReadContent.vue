@@ -78,6 +78,27 @@ watch(
 )
 
 //chuyen trang 
+const touchStartX = ref(0)
+
+// Xử lý sự kiện touch bắt đầu
+const handleTouchStart = (event: TouchEvent) => {
+  touchStartX.value = event.touches[0].clientX
+}
+
+// Xử lý sự kiện touch kết thúc
+const handleTouchEnd = (event: TouchEvent) => {
+  const touchEndX = event.changedTouches[0].clientX
+  const diff = touchEndX - touchStartX.value
+  
+  // Nếu vuốt sang trái (diff < 0) và khoảng cách vuốt đủ lớn
+  if (diff < -50) {
+    props.handleNext()
+  }
+  // Nếu vuốt sang phải (diff > 0) và khoảng cách vuốt đủ lớn
+  else if (diff > 50) {
+    props.handlePrev()
+  }
+}
 const handlePageClick = (event) => {
   const rect = event.currentTarget.getBoundingClientRect();
   const x = event.clientX - rect.left;
@@ -105,23 +126,24 @@ const handlePageClick = (event) => {
     </div>
 
     <div v-show="!isVertical" class="read-content horizontal">
-      <div :class="`box-image ${props.isTwoPage ? 'two-page' : ''}`" @click="handlePageClick">
+      <div :class="`box-image ${props.isTwoPage ? 'two-page' : ''}`" @touchstart="handleTouchStart"
+        @touchend="handleTouchEnd" @click="handlePageClick">
         <template v-if="props.isTwoPage">
           <LoadingView v-if="!loadingStatus[props.page]" />
           <img v-show="loadingStatus[props.page]" :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${data?.data.item.chapter_image.find((item) => item.image_page === props.page)
-              ?.image_file
+            ?.image_file
             }`" alt="image" @load="handleImageLoad(props.page)" />
 
           <LoadingView v-if="!loadingStatus[props.page + 1]" />
           <img v-show="loadingStatus[props.page + 1]" :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${data?.data.item.chapter_image.find((item) => item.image_page === props.page + 1)
-              ?.image_file
+            ?.image_file
             }`" alt="image" @load="handleImageLoad(props.page + 1)" />
         </template>
 
         <template v-else>
           <LoadingView v-if="!loadingStatus[props.page]" />
           <img v-show="loadingStatus[props.page]" :src="`${data?.data.domain_cdn}/${data?.data.item.chapter_path}/${data?.data.item.chapter_image.find((item) => item.image_page === props.page)
-              ?.image_file
+            ?.image_file
             }`" alt="image" @load="handleImageLoad(props.page)" />
         </template>
       </div>
